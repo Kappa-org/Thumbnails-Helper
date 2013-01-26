@@ -11,7 +11,8 @@ use Kappa\Exceptions\LogicException,
 	Kappa\Utils\Validators,
 	Kappa\Utils\FileSystem\Files,
 	Kappa\Utils\FileSystem\Directories,
-	Nette\Image;
+	Nette\Image,
+	Kappa\Exceptions\LogicException\InvalidArgumentException;
 
 class ThumbnailsHelper extends \Nette\Object
 {
@@ -62,10 +63,13 @@ class ThumbnailsHelper extends \Nette\Object
 	public function thumb($src, $sizes = array(300, 200), $flags = "FIT")
 	{
 		$this->sizes = $sizes;
-		$this->flags = constant('\Nette\Image::' . $flags);
+		if(defined("\\Nrtte\\Images\\::'$flags'"))
+			$this->flags = constant('\Nette\Image::' . $flags);
+		else
+			throw new InvalidArgumentException("Flag '$flags' not found. Please select only between FIT, FILL, EXACT, SHRINK_ONLY, STRETCH flags");
 		$this->prepare($src);
 		if(!file_exists($this->originalImage) || !Validators::isImage($this->originalImage))
-			throw new LogicException\InvalidArgumentException('Helper thumb must be used only for image files. "'.$src.'"');
+			throw new InvalidArgumentException('Helper thumb must be used only for image files. "'.$src.'"');
 		if(file_exists($this->thumbImage))
 			return $this->getRelativePath($this->thumbImage);
 		else
