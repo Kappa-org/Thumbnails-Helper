@@ -13,11 +13,11 @@ Simple and intelligent system for creating and work with thumbnails
 ```json
 	"require":{
 		"kappa/thumbnails-helper" : "dev-master"
-	},
+	}
 ```
 
 2. Step - Registre this package in config
-<pre>
+```neon
 	nette:
 		template:
 			helperLoaders: \Kappa\Templating\Helpers
@@ -25,7 +25,7 @@ Simple and intelligent system for creating and work with thumbnails
 				thumbnails: @Thumbnails::thumb
 	services:
 		Thumbnails: Kappa\Templating\Helpers\ThumbnailsHelper(%wwwDir%,%imageStorage.thumbDir%)
-</pre>
+```
 
 **3. Step - Clean temp directory!**
 
