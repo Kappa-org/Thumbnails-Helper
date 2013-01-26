@@ -10,11 +10,11 @@ Simple and intelligent system for creating and work with thumbnails
 ###Install
 
 1. Step - Add this package into your project
-<pre>
+```json
 	"require":{
 		"kappa/thumbnails-helper" : "dev-master"
 	},
-</pre>
+```
 
 2. Step - Registre this package in config
 <pre>
