@@ -1,0 +1,32 @@
+{
+	"name": "kappa/thumbnails-helper",
+	"type":"library",
+        "description": "Simple and intelligent system for creating and work with thumbnails",
+        "keywords": ["framework", "Nette", "Kappa", "Thumbnails", "helpers"],
+        "homepage": "",
+        "license": "",
+
+        "authors": [{
+		"name": "Ondřej Záruba",
+                "homepage": "http://zaruba-ondrej.cz/"
+        }],
+
+        "support":{
+                "email":"zarubaondra@gmail.com",
+                "issues":"https://github.com/Kappa-org/Framework/issues"
+        },
+
+	"require":{
+		"php": ">= 5.3.0",
+		"nette/nette":"dev-master",
+		"kappa/framework":"dev-master"
+	},
+
+	"config": {
+		"vendor-dir": "libs"
+	},
+
+	"autoload": {
+                "psr-0": {"Kappa": "./"}
+        }
+}
