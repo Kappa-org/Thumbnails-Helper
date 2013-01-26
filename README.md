@@ -32,8 +32,8 @@ Simple and intelligent system for creating and work with thumbnails
 Complete! :)
 
 ###Work with Thumbnails helper
-<pre>
-	// Presenter
+```php
+  // Presenter
 	class HomepagePresenter extends \Kappa\Application\UI\Presenter
         {
         	public function renderDefault()
@@ -41,9 +41,9 @@ Complete! :)
         		$this->template->img = "/media/upload/img.png";
         	}
         }
-
+```
+```html
         // Layout
         <img src={$img|thumbnails:array(100,100}:"STRETCH">
-</pre>
-
+```
 First parameter are sizes thumbnails and second parameter is method resizing [see documentation](http://doc.nette.org/cs/images#toc-zmena-velikosti)
