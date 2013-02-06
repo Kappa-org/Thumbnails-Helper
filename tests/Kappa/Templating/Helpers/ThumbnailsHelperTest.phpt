@@ -22,11 +22,20 @@ class ThumbnailsHelperTest extends Tests\TestCase
 	/** @var \Kappa\Templating\Helpers\ThumbnailsHelper */
 	private $thumbnailsHelper;
 
+	/** @var \Kappa\Templating\Helpers\ThumbnailsHelper */
+	private $thumbnailsHelperFail;
+
 
 
 	protected function setUp()
 	{
 		$this->thumbnailsHelper = new ThumbnailsHelper(__DIR__ . '/../../../data/www', '/thumb', 1);
+		Assert::throws(function () {
+			$this->thumbnailsHelper = new ThumbnailsHelper(__DIR__ . '/../../../data/fails', '/thumb', 1);
+		}, '\Kappa\DirectoryNotFoundException');
+		Assert::throws(function () {
+			$this->thumbnailsHelper = new ThumbnailsHelper(__DIR__ . '/../../../data/www', '/thumb', array());
+		}, '\Kappa\InvalidArgumentException');
 	}
 
 
@@ -62,6 +71,12 @@ class ThumbnailsHelperTest extends Tests\TestCase
 		$file .= 'PHP-logo_thumb300x200_' . $md5 . '_' . $time . '.png';
 		Assert::same($file, $this->thumbnailsHelper->thumb('/PHP-logo.png', array(300,200), "FIT"));
 		Files::deleteFiles(realpath(__DIR__ . '/../../../data/www'.$file));
+		Assert::throws(function () {
+			$this->thumbnailsHelper->thumb("un-exist-file");
+		}, '\Kappa\FileNotFoundException');
+		Assert::throws(function () {
+			$this->thumbnailsHelper->thumb("/PHP-logo.png", array(300,200), "LOL");
+		}, '\Kappa\InvalidArgumentException');
 	}
 
 
