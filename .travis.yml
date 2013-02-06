@@ -1,0 +1,11 @@
+language: php
+
+php:
+        - "5.4"
+        - "5.5"
+
+script: "sh ./tests/run-tests.sh tests/"
+
+before_script:
+        - composer self-update
+        - composer install --dev
