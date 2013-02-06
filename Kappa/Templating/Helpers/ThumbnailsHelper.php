@@ -32,14 +32,22 @@ class ThumbnailsHelper extends \Nette\Object
 
 
 	/**
-	 * @param $wwwDir
-	 * @param $thumbDir
-	 * @param null $frequencyControl
+	 * @param string $wwwDir
+	 * @param string $thumbDir
+	 * @param null|int $frequencyControl
+	 * @throws \Kappa\DirectoryNotFoundException
+	 * @throws \Kappa\InvalidArgumentException
 	 */
 	public function __construct($wwwDir, $thumbDir, $frequencyControl = null)
 	{
-		$this->params['wwwDir'] = $wwwDir;
-		$this->params['thumbDir'] = $thumbDir;
+		if(!is_dir($wwwDir)) {
+			throw new \Kappa\DirectoryNotFoundException(__METHOD__, $wwwDir);
+		}
+		if(!is_int($frequencyControl)) {
+			throw new \Kappa\InvalidArgumentException("Class " . __METHOD__ . " required as third argument integer");
+		}
+		$this->params['wwwDir'] = realpath($wwwDir);
+		$this->params['thumbDir'] = $this->checkThumbDir($thumbDir);
 		$this->params['frequencyControl'] = $frequencyControl;
 	}
 
@@ -87,7 +95,6 @@ class ThumbnailsHelper extends \Nette\Object
 	{
 		$this->originalImage = $this->params['wwwDir'] . $relativePath;
 		$this->thumbImage = $this->createThumbName();
-		$this->checkThumbDir();
 		if ($this->params['frequencyControl'] !== null) {
 			$this->deleteOlderThumbnails();
 		}
@@ -139,21 +146,21 @@ class ThumbnailsHelper extends \Nette\Object
 
 
 
-	private function checkThumbDir()
+	private function checkThumbDir($thumbDir)
 	{
 		$dir = $this->params['wwwDir'];
-		$dir .= $this->params['thumbDir'];
+		$dir .= $thumbDir;
 		if (!is_dir($dir)) {
 			Directories::create($dir, '0777');
 		}
+		return realpath($dir);
 	}
 
 
 
 	private function deleteOlderThumbnails()
 	{
-		$path = $this->params['wwwDir'];
-		$path .= $this->params['thumbDir'];
+		$path = $this->params['thumbDir'];
 		$day = $this->params['frequencyControl'];
 		$file = $path . '/check.txt';
 		if (file_exists($file)) {
