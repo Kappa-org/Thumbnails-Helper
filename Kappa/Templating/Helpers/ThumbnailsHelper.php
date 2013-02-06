@@ -94,7 +94,6 @@ class ThumbnailsHelper extends \Nette\Object
 
 	/**
 	 * @param string $relativePath
-	 * @return ThumbnailsHelper
 	 */
 	private function prepare($relativePath)
 	{
@@ -103,7 +102,6 @@ class ThumbnailsHelper extends \Nette\Object
 		if ($this->params['frequencyControl'] !== null) {
 			$this->deleteOlderThumbnails();
 		}
-		return $this;
 	}
 
 
@@ -150,7 +148,6 @@ class ThumbnailsHelper extends \Nette\Object
 		$image = Image::fromFile($this->originalImage);
 		$image->resize($width, $height, $this->flags);
 		$image->save($this->thumbImage);
-		return $this;
 	}
 
 
