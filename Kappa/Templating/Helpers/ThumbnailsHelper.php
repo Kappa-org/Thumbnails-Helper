@@ -40,10 +40,10 @@ class ThumbnailsHelper extends \Nette\Object
 	 */
 	public function __construct($wwwDir, $thumbDir, $frequencyControl = null)
 	{
-		if(!is_dir($wwwDir)) {
+		if (!is_dir($wwwDir)) {
 			throw new \Kappa\DirectoryNotFoundException(__METHOD__, $wwwDir);
 		}
-		if(!is_int($frequencyControl)) {
+		if (!is_int($frequencyControl)) {
 			throw new \Kappa\InvalidArgumentException("Class " . __METHOD__ . " required as third argument integer");
 		}
 		$this->params['wwwDir'] = realpath($wwwDir);
@@ -93,7 +93,8 @@ class ThumbnailsHelper extends \Nette\Object
 
 
 	/**
-	 * @param $relativePath
+	 * @param string $relativePath
+	 * @return ThumbnailsHelper
 	 */
 	private function prepare($relativePath)
 	{
@@ -102,6 +103,7 @@ class ThumbnailsHelper extends \Nette\Object
 		if ($this->params['frequencyControl'] !== null) {
 			$this->deleteOlderThumbnails();
 		}
+		return $this;
 	}
 
 
