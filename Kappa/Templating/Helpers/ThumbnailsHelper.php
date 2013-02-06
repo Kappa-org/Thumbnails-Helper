@@ -7,39 +7,29 @@
 
 namespace Kappa\Templating\Helpers;
 
-use Kappa\Exceptions\LogicException,
-	Kappa\Utils\Validators,
-	Kappa\Utils\FileSystem\Files,
-	Kappa\Utils\FileSystem\Directories,
-	Nette\Image,
-	Kappa\Exceptions\LogicException\InvalidArgumentException;
+use Kappa\Utils\Validators;
+use Kappa\Utils\FileSystem\Files;
+use Kappa\Utils\FileSystem\Directories;
+use Nette\Image;
 
 class ThumbnailsHelper extends \Nette\Object
 {
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $params;
 
-	/**
-	 * @var array
-	 */
+	/** @var array */
 	private $sizes;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $flags;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $originalImage;
 
-	/**
-	 * @var string
-	 */
+	/** @var string */
 	private $thumbImage;
+
+
 
 	/**
 	 * @param $wwwDir
@@ -53,37 +43,41 @@ class ThumbnailsHelper extends \Nette\Object
 		$this->params['frequencyControl'] = $frequencyControl;
 	}
 
+
+
 	/**
 	 * @param string $src
 	 * @param array $sizes
-	 * @param string $flags
+	 * @param string $flag
 	 * @return string
 	 * @throws \Kappa\Exceptions\LogicException\InvalidArgumentException
 	 */
-	public function thumb($src, $sizes = array(300, 200), $flags = "FIT")
+	public function thumb($src, $sizes = array(300, 200), $flag = "FIT")
 	{
 		$this->sizes = $sizes;
-		if(defined("\\Nrtte\\Images\\::'$flags'"))
-			$this->flags = constant('\Nette\Image::' . $flags);
-		else
-			throw new InvalidArgumentException("Flag '$flags' not found. Please select only between FIT, FILL, EXACT, SHRINK_ONLY, STRETCH flags");
+		if (defined('\Nette\Image::' . $flag)) {
+			$flag = constant('\Nette\Image::' . $flag);
+		} else {
+			throw new InvalidArgumentException("Flag '$flag' not found. Please select only between FIT, FILL, EXACT, SHRINK_ONLY, STRETCH flags");
+		}
 		$this->prepare($src);
-		if(!file_exists($this->originalImage) || !Validators::isImage($this->originalImage))
-			throw new InvalidArgumentException('Helper thumb must be used only for image files. "'.$src.'"');
-		if(file_exists($this->thumbImage))
+		if (!file_exists($this->originalImage) || !Validators::isImage($this->originalImage)) {
+			throw new InvalidArgumentException('Helper thumb must be used only for image files. "' . $src . '"');
+		}
+		if (file_exists($this->thumbImage)) {
 			return $this->getRelativePath($this->thumbImage);
-		else
-		{
+		} else {
 			$imgInfo = getimagesize($this->originalImage);
-			if($imgInfo[0] <= $this->sizes[0] || $imgInfo[1] <= $this->sizes[1])
+			if ($imgInfo[0] <= $this->sizes[0] || $imgInfo[1] <= $this->sizes[1]) {
 				return $this->getRelativePath($this->originalImage);
-			else
-			{
+			} else {
 				$this->createThumb();
 				return $this->getRelativePath($this->thumbImage);
 			}
 		}
 	}
+
+
 
 	/**
 	 * @param $relativePath
@@ -93,9 +87,12 @@ class ThumbnailsHelper extends \Nette\Object
 		$this->originalImage = $this->params['wwwDir'] . $relativePath;
 		$this->thumbImage = $this->createThumbName();
 		$this->checkThumbDir();
-		if($this->params['frequencyControl'] !== null)
+		if ($this->params['frequencyControl'] !== null) {
 			$this->deleteOlderThumbnails();
+		}
 	}
+
+
 
 	/**
 	 * @return string
@@ -117,6 +114,8 @@ class ThumbnailsHelper extends \Nette\Object
 		return $thumbName;
 	}
 
+
+
 	/**
 	 * @param string $path
 	 * @return string
@@ -127,6 +126,8 @@ class ThumbnailsHelper extends \Nette\Object
 		return substr($path, $to);
 	}
 
+
+
 	private function createThumb()
 	{
 		list($width, $height) = $this->sizes;
@@ -135,13 +136,18 @@ class ThumbnailsHelper extends \Nette\Object
 		$image->save($this->thumbImage);
 	}
 
+
+
 	private function checkThumbDir()
 	{
 		$dir = $this->params['wwwDir'];
 		$dir .= $this->params['thumbDir'];
-		if(!is_dir($dir))
+		if (!is_dir($dir)) {
 			Directories::create($dir, '0777');
+		}
 	}
+
+
 
 	private function deleteOlderThumbnails()
 	{
@@ -149,18 +155,14 @@ class ThumbnailsHelper extends \Nette\Object
 		$path .= $this->params['thumbDir'];
 		$day = $this->params['frequencyControl'];
 		$file = $path . '/check.txt';
-		if(file_exists($file))
-		{
+		if (file_exists($file)) {
 			$lastControl = Files::read($file);
-			if($lastControl <= (strtotime("now") - (60*60*24*$day)))
-			{
+			if ($lastControl <= (strtotime("now") - (60 * 60 * 24 * $day))) {
 				$filesForDelete = Files::selectOlderThan($path, $day);
 				Files::deleteFiles($filesForDelete);
 			}
 			Files::rewrite($file, strtotime("now"));
-		}
-		else
-		{
+		} else {
 			Files::create($file, strtotime("now"));
 		}
 	}
