@@ -61,6 +61,7 @@ class ThumbnailsHelperTest extends Tests\TestCase
 		$file = DIRECTORY_SEPARATOR  . 'thumb' . DIRECTORY_SEPARATOR;
 		$file .= 'PHP-logo_thumb300x200_' . $md5 . '_' . $time . '.png';
 		Assert::same($file, $this->thumbnailsHelper->thumb('/PHP-logo.png', array(300,200), "FIT"));
+		Files::deleteFiles(realpath(__DIR__ . '/../../../data/www'.$file));
 	}
 
 
