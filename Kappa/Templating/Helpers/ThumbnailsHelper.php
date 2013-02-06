@@ -59,9 +59,10 @@ class ThumbnailsHelper extends \Nette\Object
 	 * @param string $flag
 	 * @return string
 	 * @throws \Kappa\InvalidArgumentException
+	 * @throws \Kappa\FileNotFoundException
 	 * @throws \Kappa\ImageNotFoundException
 	 */
-	public function thumb($src, $sizes = array(300, 200), $flag = "FIT")
+	public function thumb($src, array $sizes = array(300, 200), $flag = "FIT")
 	{
 		$this->sizes = $sizes;
 		if (defined('\Nette\Image::' . $flag)) {
@@ -70,7 +71,10 @@ class ThumbnailsHelper extends \Nette\Object
 			throw new \Kappa\InvalidArgumentException("Flag '$flag' not found. Please select only between FIT, FILL, EXACT, SHRINK_ONLY, STRETCH flags");
 		}
 		$this->prepare($src);
-		if (!file_exists($this->originalImage) || !Validators::isImage($this->originalImage)) {
+		if (!file_exists($this->originalImage)) {
+			throw new \Kappa\FileNotFoundException(__METHOD__, $src);
+		}
+		if (!Validators::isImage($this->originalImage)) {
 			throw new \Kappa\ImageNotFoundException(__METHOD__, $src);
 		}
 		if (file_exists($this->thumbImage)) {
