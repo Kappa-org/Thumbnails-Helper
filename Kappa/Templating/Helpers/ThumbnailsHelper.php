@@ -65,7 +65,7 @@ class ThumbnailsHelper extends \Nette\Object
 	{
 		$this->sizes = $sizes;
 		if (defined('\Nette\Image::' . $flag)) {
-			$flag = constant('\Nette\Image::' . $flag);
+			$this->flags = constant('\Nette\Image::' . $flag);
 		} else {
 			throw new \Kappa\InvalidArgumentException("Flag '$flag' not found. Please select only between FIT, FILL, EXACT, SHRINK_ONLY, STRETCH flags");
 		}
@@ -107,8 +107,7 @@ class ThumbnailsHelper extends \Nette\Object
 	 */
 	private function createThumbName()
 	{
-		$path = $this->params['wwwDir'];
-		$path .= $this->params['thumbDir'];
+		$path = $this->params['thumbDir'];
 		$path .= (string)strrchr($this->originalImage, "/");
 		$type = (string)strrchr($this->originalImage, ".");
 
@@ -131,7 +130,10 @@ class ThumbnailsHelper extends \Nette\Object
 	private function getRelativePath($path)
 	{
 		$to = strlen($this->params['wwwDir']);
-		return substr($path, $to);
+		$relative = substr($path, $to);
+		$delChars = array("\\", "/");
+		$relative = str_replace($delChars, DIRECTORY_SEPARATOR, $relative);
+		return $relative;
 	}
 
 
@@ -142,6 +144,7 @@ class ThumbnailsHelper extends \Nette\Object
 		$image = Image::fromFile($this->originalImage);
 		$image->resize($width, $height, $this->flags);
 		$image->save($this->thumbImage);
+		return $this;
 	}
 
 
