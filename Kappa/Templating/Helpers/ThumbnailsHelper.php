@@ -43,7 +43,7 @@ class ThumbnailsHelper extends \Nette\Object
 		if (!is_dir($wwwDir)) {
 			throw new \Kappa\DirectoryNotFoundException(__METHOD__, $wwwDir);
 		}
-		if (!is_int($frequencyControl)) {
+		if (!is_int($frequencyControl) && $frequencyControl !== null ) {
 			throw new \Kappa\InvalidArgumentException("Class " . __METHOD__ . " required as third argument integer");
 		}
 		$this->params['wwwDir'] = realpath($wwwDir);

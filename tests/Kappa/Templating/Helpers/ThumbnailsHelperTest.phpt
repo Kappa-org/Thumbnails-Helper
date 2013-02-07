@@ -30,6 +30,7 @@ class ThumbnailsHelperTest extends Tests\TestCase
 	protected function setUp()
 	{
 		$this->thumbnailsHelper = new ThumbnailsHelper(__DIR__ . '/../../../data/www', '/thumb', 1);
+		$this->thumbnailsHelperFail = new ThumbnailsHelper(__DIR__ . '/../../../data/www', '/thumb');
 		Assert::throws(function () {
 			$this->thumbnailsHelper = new ThumbnailsHelper(__DIR__ . '/../../../data/fails', '/thumb', 1);
 		}, '\Kappa\DirectoryNotFoundException');
@@ -46,6 +47,8 @@ class ThumbnailsHelperTest extends Tests\TestCase
 	 */
 	public function testConstruct(array $params = array())
 	{
+		Assert::true($this->thumbnailsHelperFail instanceof ThumbnailsHelper);
+		unset($this->thumbnailsHelperFail);
 		Assert::true($this->thumbnailsHelper instanceof ThumbnailsHelper);
 		Assert::equal($params, $this->invokeProperty($this->thumbnailsHelper, 'params'));
 	}
@@ -67,15 +70,15 @@ class ThumbnailsHelperTest extends Tests\TestCase
 	{
 		$md5 = Files::md5sum(realpath(__DIR__ . '/../../../data/www/PHP-logo.png'));
 		$time = fileatime(realpath(__DIR__ . '/../../../data/www/PHP-logo.png'));
-		$file = DIRECTORY_SEPARATOR  . 'thumb' . DIRECTORY_SEPARATOR;
+		$file = DIRECTORY_SEPARATOR . 'thumb' . DIRECTORY_SEPARATOR;
 		$file .= 'PHP-logo_thumb300x200_' . $md5 . '_' . $time . '.png';
-		Assert::same($file, $this->thumbnailsHelper->thumb('/PHP-logo.png', array(300,200), "FIT"));
-		Files::deleteFiles(realpath(__DIR__ . '/../../../data/www'.$file));
+		Assert::same($file, $this->thumbnailsHelper->thumb('/PHP-logo.png', array(300, 200), "FIT"));
+		Files::deleteFiles(realpath(__DIR__ . '/../../../data/www' . $file));
 		Assert::throws(function () {
 			$this->thumbnailsHelper->thumb("un-exist-file");
 		}, '\Kappa\FileNotFoundException');
 		Assert::throws(function () {
-			$this->thumbnailsHelper->thumb("/PHP-logo.png", array(300,200), "LOL");
+			$this->thumbnailsHelper->thumb("/PHP-logo.png", array(300, 200), "LOL");
 		}, '\Kappa\InvalidArgumentException');
 	}
 
@@ -96,7 +99,7 @@ class ThumbnailsHelperTest extends Tests\TestCase
 			)
 		);
 	}
-	
+
 }
 
 \run(new ThumbnailsHelperTest());
