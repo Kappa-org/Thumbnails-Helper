@@ -112,7 +112,7 @@ class ThumbnailsHelper extends \Nette\Object
 	private function createThumbName()
 	{
 		$path = $this->params['thumbDir'];
-		$path .= (string)strrchr($this->originalImage, "/");
+		$path .= (string)strrchr($this->originalImage, DIRECTORY_SEPARATOR);
 		$type = (string)strrchr($this->originalImage, ".");
 
 		$newName = "_thumb";
@@ -135,8 +135,6 @@ class ThumbnailsHelper extends \Nette\Object
 	{
 		$to = strlen($this->params['wwwDir']);
 		$relative = substr($path, $to);
-		$delChars = array("\\", "/");
-		$relative = str_replace($delChars, DIRECTORY_SEPARATOR, $relative);
 		return $relative;
 	}
 
@@ -155,6 +153,7 @@ class ThumbnailsHelper extends \Nette\Object
 	private function checkThumbDir($thumbDir)
 	{
 		$dir = $this->params['wwwDir'];
+		$dir .= DIRECTORY_SEPARATOR;
 		$dir .= $thumbDir;
 		if (!is_dir($dir)) {
 			Directories::create($dir, '0777');
