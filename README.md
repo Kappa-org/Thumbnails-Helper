@@ -1,4 +1,4 @@
-#Kappa:Thumbnails helper
+#Kappa:Thumbnails helper [![Build Status](https://travis-ci.org/Kappa-org/Thumbnails-Helper.png?branch=master)](https://travis-ci.org/Kappa-org/Thumbnails-Helper)
 
 Simple and intelligent system for creating and work with thumbnails
 
