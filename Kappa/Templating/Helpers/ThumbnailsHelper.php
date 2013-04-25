@@ -7,12 +7,14 @@
 
 namespace Kappa\Templating\Helpers;
 
+use Kappa\Utils\Strings;
 use Kappa\Utils\Validators;
 use Kappa\Utils\FileSystem\Files;
 use Kappa\Utils\FileSystem\Directories;
 use Nette\Image;
+use Nette\Object;
 
-class ThumbnailsHelper extends \Nette\Object
+class ThumbnailsHelper extends Object
 {
 	/** @var array */
 	private $params;
@@ -29,8 +31,6 @@ class ThumbnailsHelper extends \Nette\Object
 	/** @var string */
 	private $thumbImage;
 
-
-
 	/**
 	 * @param string $wwwDir
 	 * @param string $thumbDir
@@ -43,15 +43,13 @@ class ThumbnailsHelper extends \Nette\Object
 		if (!is_dir($wwwDir)) {
 			throw new \Kappa\DirectoryNotFoundException(__METHOD__, $wwwDir);
 		}
-		if (!is_int($frequencyControl) && $frequencyControl !== null ) {
+		if (!is_int($frequencyControl) && $frequencyControl !== null) {
 			throw new \Kappa\InvalidArgumentException("Class " . __METHOD__ . " required as third argument integer");
 		}
 		$this->params['wwwDir'] = realpath($wwwDir);
 		$this->params['thumbDir'] = $this->checkThumbDir($thumbDir);
 		$this->params['frequencyControl'] = $frequencyControl;
 	}
-
-
 
 	/**
 	 * @param string $src
@@ -90,21 +88,17 @@ class ThumbnailsHelper extends \Nette\Object
 		}
 	}
 
-
-
 	/**
 	 * @param string $relativePath
 	 */
 	private function prepare($relativePath)
 	{
-		$this->originalImage = $this->params['wwwDir'] . $relativePath;
+		$this->originalImage = Strings::repairPathSeparators($this->params['wwwDir'] . $relativePath);
 		$this->thumbImage = $this->createThumbName();
 		if ($this->params['frequencyControl'] !== null) {
 			$this->deleteOlderThumbnails();
 		}
 	}
-
-
 
 	/**
 	 * @return string
@@ -125,8 +119,6 @@ class ThumbnailsHelper extends \Nette\Object
 		return $thumbName;
 	}
 
-
-
 	/**
 	 * @param string $path
 	 * @return string
@@ -138,8 +130,6 @@ class ThumbnailsHelper extends \Nette\Object
 		return $relative;
 	}
 
-
-
 	private function createThumb()
 	{
 		list($width, $height) = $this->sizes;
@@ -147,8 +137,6 @@ class ThumbnailsHelper extends \Nette\Object
 		$image->resize($width, $height, $this->flags);
 		$image->save($this->thumbImage);
 	}
-
-
 
 	private function checkThumbDir($thumbDir)
 	{
@@ -160,8 +148,6 @@ class ThumbnailsHelper extends \Nette\Object
 		}
 		return realpath($dir);
 	}
-
-
 
 	private function deleteOlderThumbnails()
 	{
