@@ -44,6 +44,6 @@ class HomepagePresenter extends \Kappa\Application\UI\Presenter
 ```
 ```html
 <!-- Layout -->
-<img src={$img|thumbnails:array(100,100}:"STRETCH">
+<img src={$img|thumbnails:array(100,100):"STRETCH"}>
 ```
 First parameter are sizes thumbnails and second parameter is method resizing [see documentation](http://doc.nette.org/cs/images#toc-zmena-velikosti)
