@@ -26,6 +26,8 @@ class ThumbnailsHelperTest extends TestCase
 
 	public function __construct()
 	{
+		if(!file_exists(__DIR__ . '/../../data/www/thumb'))
+			@mkdir(__DIR__ . '/../../data/www/thumb');
 		$this->thumbDir = realpath(__DIR__ . '/../../data/www/thumb');
 		$this->wwwDir = realpath(__DIR__ . '/../../data/www/');
 	}
@@ -73,7 +75,7 @@ class ThumbnailsHelperTest extends TestCase
 	public function provideProcess()
 	{
 		return array(
-			array(DIRECTORY_SEPARATOR . 'thumb' . DIRECTORY_SEPARATOR . 'PHP-logo_thumb10x10_b028f6dacc9bf55567b1506c28828189_1368390315.png'),
+			array(DIRECTORY_SEPARATOR . 'thumb' . DIRECTORY_SEPARATOR . 'PHP-logo_thumb10x10_' . md5_file($this->wwwDir . '/PHP-logo.png') . '_' . filemtime(realpath($this->wwwDir . '/PHP-logo.png')) . '.png'),
 		);
 	}
 
