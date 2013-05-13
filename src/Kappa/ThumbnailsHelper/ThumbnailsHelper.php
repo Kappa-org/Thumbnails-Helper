@@ -5,7 +5,7 @@
  * Date: 20.12.12
  */
 
-namespace Kappa\Templating\Helpers;
+namespace Kappa\ThumbnailsHelper;
 
 use Kappa\Utils\Strings;
 use Kappa\Utils\Validators;

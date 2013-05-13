@@ -30,7 +30,7 @@
 
 	"autoload":{
 		"psr-0":{
-			"Kappa":"./"
+			"Kappa":"src/"
 		}
 	}
 }
