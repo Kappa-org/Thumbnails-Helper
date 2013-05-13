@@ -21,16 +21,18 @@
 	"require":{
 		"php":">= 5.4.0",
 		"nette/nette":"dev-master",
-		"kappa/framework":"dev-master"
+		"kappa/filesystem":"dev-master"
 	},
 
 	"require-dev":{
-		"nette/tester":"dev-master"
+		"nette/tester":"dev-master",
+		"kappa/tester":"dev-master"
 	},
 
 	"autoload":{
-		"psr-0":{
-			"Kappa":"src/"
-		}
+		"psr-0":{"Kappa":"src/"},
+		"classmap": [
+			"src/Kappa/ThumbnailsHelper/exceptions.php"
+		]
 	}
 }
