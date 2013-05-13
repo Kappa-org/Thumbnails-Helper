@@ -1,11 +1,12 @@
 language: php
 
 php:
+        - "5.3.3"
         - "5.4"
-        - "5.5"
 
-script: "sh ./tests/run-tests.sh tests/"
+script: "VERBOSE=true ./tests/run-tests.sh -s tests/"
 
 before_script:
         - composer self-update
         - composer install --dev
+        - sudo chmod 777 -R ./
