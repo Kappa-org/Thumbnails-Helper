@@ -1,11 +1,11 @@
 <?php
 /**
- * ThumbnailsHelper.php
+ * This file is part of the Kappa package.
  *
- * @author Ondřej Záruba <zarubaondra@gmail.com>
- * @date 20.12.12
+ * (c) Ondřej Záruba <zarubaondra@gmail.com>
  *
- * @package Kappa\ThumbnailsHelper
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
  */
 
 namespace Kappa\ThumbnailsHelper;
@@ -17,7 +17,6 @@ use Nette\Object;
 
 /**
  * Class ThumbnailsHelper
- *
  * @package Kappa\ThumbnailsHelper
  */
 class ThumbnailsHelper extends Object
