@@ -127,7 +127,7 @@ class ThumbnailsHelper extends Object
 			$directory = new Directory($this->params['thumbDir']);
 			$files = $directory->getFiles();
 			/** @var \Kappa\FileSystem\File $file */
-			foreach ($files as $path => $file) {
+			foreach ($files as $file) {
 				if ($file->getInfo()->getMTime() <= $time) {
 					if (!$file->remove()) {
 						throw new IOException("File {$file->getInfo->getBasename()} has not been removed");
