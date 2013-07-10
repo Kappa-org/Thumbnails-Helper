@@ -1,49 +1,24 @@
-#Kappa:Thumbnails helper [![Build Status](https://travis-ci.org/Kappa-org/Thumbnails-Helper.png?branch=master)](https://travis-ci.org/Kappa-org/Thumbnails-Helper)
+#Kappa/ThumbnailsHelper [![Build Status](https://travis-ci.org/Kappa-org/Thumbnails-Helper.png?branch=master)](https://travis-ci.org/Kappa-org/Thumbnails-Helper)
 
-Simple and intelligent system for creating and work with thumbnails
+Inteligent heper for work with thumbnail in Nette/Latte templates
 
-###Requirements:
-- PHP 5.3.*
-- [Nette framework](http://nette.org/) 2.0.*
-- [Kappa:Framework](https://github.com/Kappa-org/Framework)
+## Requirements:
 
-###Install
+* PHP 5.3 or higher
+* [Nette Framework](http://nette.org)
+* [Kappa/FileSystem](https://github.com/Kappa-app/FileSystem)
+* [Kappa/Nette-FileSystem](https://github.com/Kappa-app/Nette-FileSystem)
 
-1. Step - Add this package into your project
-```json
-	"require":{
-		"kappa/thumbnails-helper" : "dev-master"
-	}
+## Installation
+
+The best way to install Kappa/FileSystem is using Composer:
+
+```bash
+$ composer require kappa/thumbnails-helper:@dev
 ```
 
-2. Step - Registre this package in config
-```neon
-	nette:
-		template:
-			helperLoaders: \Kappa\Templating\Helpers
-			helpers:
-				thumbnails: @Thumbnails::thumb
-	services:
-		Thumbnails: Kappa\Templating\Helpers\ThumbnailsHelper(%wwwDir%,%imageStorage.thumbDir%)
-```
+## Usages
 
-**3. Step - Clean temp directory!**
-
-Complete! :)
-
-###Work with Thumbnails helper
-```php
-// Presenter
-class HomepagePresenter extends \Kappa\Application\UI\Presenter
-{
-	public function renderDefault()
-	{
-		$this->template->img = "/media/upload/img.png";
-	}
-}
-```
 ```html
-<!-- Layout -->
-<img src={$img|thumbnails:array(100,100):"STRETCH"}>
+<img src={$img|thumb:array(100,100):"STRETCH"}>
 ```
-First parameter are sizes thumbnails and second parameter is method resizing [see documentation](http://doc.nette.org/cs/images#toc-zmena-velikosti)
