@@ -12,7 +12,7 @@ namespace Kappa\ThumbnailsHelper;
 
 use Kappa\FileSystem\Directory;
 use Kappa\FileSystem\File;
-use Kappa\FileSystem\Image;
+use Kappa\NetteFileSystem\Image;
 use Nette\Object;
 
 /**
@@ -61,9 +61,13 @@ class ThumbnailsHelper extends Object
 		$imageInfo = @getimagesize($original->getInfo()->getPathname());
 		if (file_exists($thumb) || ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1])) {
 			$file = new File($thumb);
+
 			return $file->getInfo()->getRelativePath($this->params['wwwDir']);
 		} else {
-			$file = new Image($original->getInfo()->getPathname(), $thumb, $sizes, $flag);
+			$image = Image::fromFile($original->getInfo()->getPathname());
+			$image->resize(300, 100, $this->getFlag($flag));
+			$file = $image->save($thumb);
+
 			return $file->getInfo()->getRelativePath($this->params['wwwDir']);
 		}
 	}
@@ -88,6 +92,27 @@ class ThumbnailsHelper extends Object
 		$thumbName = str_replace($original->getInfo()->getFileExtension(), $newName, $path);
 
 		return $thumbName;
+	}
+
+	/**
+	 * @param string $flag
+	 * @return int
+	 * @throws InvalidArgumentException
+	 */
+	private function getFlag($flag)
+	{
+		$flags = array(
+			'exact' => \Nette\Image::EXACT,
+			'fill' => \Nette\Image::FILL,
+			'fit' => \Nette\Image::FIT,
+			'shrink_only' => \Nette\Image::SHRINK_ONLY,
+			'stretch' => \Nette\Image::STRETCH,
+		);
+		if (!array_key_exists($flag, $flags)) {
+			throw new InvalidArgumentException("Unknown flag {$flag}");
+		} else {
+			return $flags[$flag];
+		}
 	}
 
 	/**
