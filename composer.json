@@ -21,7 +21,7 @@
 	"require":{
 		"php":">= 5.3.0",
 		"nette/nette":"dev-master",
-		"kappa/nette-filesystem":"dev-new-image"
+		"kappa/nette-filesystem":"@dev"
 	},
 
 	"require-dev":{
