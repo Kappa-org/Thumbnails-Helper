@@ -117,19 +117,22 @@ class ThumbnailsHelper extends Object
 
 	/**
 	 * @param int $day
+	 * @throws IOException
 	 */
 	private function checkThumbs($day)
 	{
-		$controlFile = new File($this->params['thumbDir'] . '/lastControl.txt');
+		$controlFile = new File($this->params['thumbDir'] . '/lastControl.txt', File::INTUITIVE);
 		$lastControl = (int)$controlFile->read();
 		$time = strtotime("now") - (60 * 60 * 24 * $day);
 		if ($lastControl <= $time) {
 			$directory = new Directory($this->params['thumbDir']);
 			$files = $directory->getFiles();
+			/** @var \Kappa\FileSystem\File $file */
 			foreach ($files as $path => $file) {
-				if ($file->getMTime() <= $time) {
-					$_file = new File($path);
-					$_file->remove();
+				if ($file->getInfo()->getMTime() <= $time) {
+					if(!$file->remove()) {
+						throw new IOException("File {$file->getInfo->getBasename()} has not been removed");
+					}
 				}
 			}
 		}
