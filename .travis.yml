@@ -4,7 +4,7 @@ php:
         - "5.3.3"
         - "5.4"
 
-script: "VERBOSE=true ./tests/run-tests.sh -s tests/"
+script: "VERBOSE=true ./vendor/bin/tester -s -j 5 -c "./tests/php.ini-unix tests/"
 
 before_script:
         - composer self-update
