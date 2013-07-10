@@ -33,10 +33,10 @@ class ThumbnailsHelper extends Object
 	public function __construct($wwwDir, $thumbDir, $frequencyControl = null)
 	{
 		if (!is_dir($wwwDir)) {
-			throw new DirectoryNotFoundException("Directory '$wwwDir' has not been found");
+			throw new DirectoryNotFoundException("Directory {$wwwDir} has not been found");
 		}
 		if (!is_dir($thumbDir)) {
-			throw new DirectoryNotFoundException("Directory '$thumbDir' has not been found");
+			throw new DirectoryNotFoundException("Directory {$thumbDir} has not been found");
 		}
 		$this->params = array(
 			'wwwDir' => realpath($wwwDir),
