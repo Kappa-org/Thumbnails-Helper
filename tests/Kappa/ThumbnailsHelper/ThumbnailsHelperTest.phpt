@@ -1,14 +1,16 @@
 <?php
 /**
- * ThumbnailsHelperTest.phpt
+ * This file is part of the Thumbnails-Helper package.
  *
- * @author Ondřej Záruba <zarubaondra@gmail.com>
- * @date 13.5.13
+ * (c) Ondřej Záruba <zarubaondra@gmail.com>
  *
- * @package Kappa
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ * 
+ * @testCase
  */
- 
-namespace Kappa\Tests\ThumbnailsHelper\ThumbnailsHelper;
+
+namespace Kappa\Tests\ThumbnailsHelper;
 
 use Kappa\Tester\TestCase;
 use Kappa\ThumbnailsHelper\ThumbnailsHelper;
@@ -19,64 +21,37 @@ require_once __DIR__ . '/../bootstrap.php';
 class ThumbnailsHelperTest extends TestCase
 {
 	/** @var string */
-	private $thumbDir;
-
-	/** @var string */
 	private $wwwDir;
 
-	public function __construct()
+	/** @var string */
+	private $thumbDir;
+
+	public function setUp()
 	{
-		if(!file_exists(__DIR__ . '/../../data/www/thumb'))
-			@mkdir(__DIR__ . '/../../data/www/thumb');
-		$this->thumbDir = realpath(__DIR__ . '/../../data/www/thumb');
-		$this->wwwDir = realpath(__DIR__ . '/../../data/www/');
+		$this->wwwDir = __DIR__ . '/../../data/www';
+		$this->thumbDir = __DIR__ . '/../../data/www/thumb';
+		if(!file_exists($this->thumbDir))
+			@mkdir($this->thumbDir);
 	}
 
-	/**
-	 * @param array $expected
-	 * @dataProvider provideConstruct
-	 */
-	public function testConstruct(array $expected)
+	public function testConstruct()
 	{
-		\Tester\Helpers::purge($this->thumbDir);
-		$thumb = new ThumbnailsHelper($this->wwwDir, $this->thumbDir);
-		Assert::same($expected, $this->getReflection()->invokeProperty($thumb, 'params'));
+		$thumb = new ThumbnailsHelper($this->wwwDir,$this->thumbDir);
+		Assert::same(array('wwwDir' => realpath($this->wwwDir), 'thumbDir' => realpath($this->thumbDir)), $this->getReflection()->invokeProperty($thumb, 'params'));
 		Assert::false(file_exists($this->thumbDir . '/lastControl.txt'));
 		Assert::true(new ThumbnailsHelper($this->wwwDir, $this->thumbDir, 1) instanceof ThumbnailsHelper);
 		Assert::true(file_exists($this->thumbDir . '/lastControl.txt'));
 	}
 
-	/**
-	 * @param string $expected
-	 * @dataProvider provideProcess
-	 */
-	public function testProcess($expected)
+	public function testProcess()
 	{
-		\Tester\Helpers::purge($this->thumbDir);
-		$thumb = new ThumbnailsHelper($this->wwwDir, $this->thumbDir, 0.0000001);
-		Assert::same($expected, $thumb->process('/PHP-logo.png', array(10,10)));
+		$thumb = new ThumbnailsHelper($this->wwwDir, $this->thumbDir);
+		Assert::same($this->generateThumbName(), $thumb->process('/PHP-logo.png', array(10,10)));
 	}
 
-	/** Providers */
-
-	/**
-	 * @return array
-	 */
-	public function provideConstruct()
+	private function generateThumbName()
 	{
-		return array(
-			array(array('wwwDir' => $this->wwwDir, 'thumbDir' => $this->thumbDir)),
-		);
-	}
-
-	/**
-	 * @return array
-	 */
-	public function provideProcess()
-	{
-		return array(
-			array(DIRECTORY_SEPARATOR . 'thumb' . DIRECTORY_SEPARATOR . 'PHP-logo_thumb10x10_' . md5_file($this->wwwDir . '/PHP-logo.png') . '_' . filemtime(realpath($this->wwwDir . '/PHP-logo.png')) . '.png'),
-		);
+		return DIRECTORY_SEPARATOR . 'thumb' . DIRECTORY_SEPARATOR . 'PHP-logo_thumb10x10_' . md5_file($this->wwwDir . '/PHP-logo.png') . '_' . filemtime(realpath($this->wwwDir . '/PHP-logo.png')) . '.png';
 	}
 
 	protected function tearDown()
