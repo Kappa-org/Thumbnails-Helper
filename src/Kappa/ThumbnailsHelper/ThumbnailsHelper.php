@@ -129,7 +129,7 @@ class ThumbnailsHelper extends Object
 			/** @var \Kappa\FileSystem\File $file */
 			foreach ($files as $path => $file) {
 				if ($file->getInfo()->getMTime() <= $time) {
-					if(!$file->remove()) {
+					if (!$file->remove()) {
 						throw new IOException("File {$file->getInfo->getBasename()} has not been removed");
 					}
 				}
