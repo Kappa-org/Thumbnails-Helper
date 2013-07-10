@@ -12,20 +12,27 @@ namespace Kappa\ThumbnailsHelper;
 
 /**
  * Class DirectoryNotFoundException
- *
  * @package Kappa\ThumbnailsHelper
  */
-class DirectoryNotFoundException extends \LogicException
+class DirectoryNotFoundException extends IOException
 {
 
 }
 
 /**
  * Class InvalidArgumentException
- *
  * @package Kappa\ThumbnailsHelper
  */
 class InvalidArgumentException extends \LogicException
+{
+
+}
+
+/**
+ * Class IOException
+ * @package Kappa\ThumbnailsHelper
+ */
+class IOException extends \LogicException
 {
 
 }
