@@ -58,10 +58,12 @@ class ThumbnailsHelper extends Object
 		$original = new File($this->params['wwwDir'] . DIRECTORY_SEPARATOR . $original);
 		$thumb = $this->createThumbName($original, $sizes);
 		$imageInfo = @getimagesize($original->getInfo()->getPathname());
-		if (file_exists($thumb) || ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1])) {
+		if (file_exists($thumb)) {
 			$file = new File($thumb);
-
 			return $file->getInfo()->getRelativePath($this->params['wwwDir']);
+		}
+		if($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {
+			return $original->getInfo()->getRelativePath($this->params['wwwDir']);
 		} else {
 			$image = Image::fromFile($original->getInfo()->getPathname());
 			$image->resize(300, 100, $this->getFlag($flag));
