@@ -19,7 +19,7 @@ use Nette\Object;
  * Class ThumbnailsHelper
  * @package Kappa\ThumbnailsHelper
  */
-class ThumbnailsHelper extends Object
+class Thumbnails extends Object
 {
 	/** @var array */
 	private $params;
