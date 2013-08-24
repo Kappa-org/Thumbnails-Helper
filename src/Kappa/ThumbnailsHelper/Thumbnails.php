@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the Kappa package.
+ * This file is part of the Kappa/ThumbnailsHelper package.
  *
  * (c) Ondřej Záruba <zarubaondra@gmail.com>
  *
