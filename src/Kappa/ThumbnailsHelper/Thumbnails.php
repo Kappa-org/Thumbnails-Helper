@@ -24,10 +24,10 @@ class Thumbnails extends Object
 	private $dataProvider;
 
 	/**
-	 * @param DataProvider $dataProvider
+	 * @param IDataProvider $dataProvider
 	 * @param IManager $manager
 	 */
-	public function __construct(DataProvider $dataProvider, IManager $manager)
+	public function __construct(IDataProvider $dataProvider, IManager $manager)
 	{
 		$this->dataProvider = $dataProvider;
 		$manager->check();

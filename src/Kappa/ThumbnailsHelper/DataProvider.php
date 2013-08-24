@@ -15,7 +15,7 @@ use Kappa\FileSystem\Directory;
  * Class DataProvider
  * @package Kappa\ThumbnailsHelper
  */
-class DataProvider 
+class DataProvider implements IDataProvider
 {
 	/** @var \Kappa\FileSystem\Directory */
 	private $wwwDir;

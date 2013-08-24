@@ -24,9 +24,9 @@ class Manager implements IManager
 	const CONTROL_FILE = '_kappa-thumbnails-helper-control-file.txt';
 
 	/**
-	 * @param DataProvider $dataProvider
+	 * @param IDataProvider $dataProvider
 	 */
-	public function __construct(DataProvider $dataProvider)
+	public function __construct(IDataProvider $dataProvider)
 	{
 		$this->dataProvider = $dataProvider;
 	}
