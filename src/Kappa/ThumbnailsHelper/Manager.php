@@ -36,7 +36,7 @@ class Manager implements IManager
 	public function setThumbDir($thumbDir)
 	{
 		$this->thumbDir = new Directory($thumbDir);
-		if(!$this->thumbDir->isUsable()) {
+		if (!$this->thumbDir->isUsable()) {
 			throw new DirectoryNotFoundException("Directory {$thumbDir} has not been found");
 		}
 	}
@@ -49,7 +49,7 @@ class Manager implements IManager
 	 */
 	public function setFrequency($frequency)
 	{
-		if(!is_numeric($frequency) && !is_string($frequency)) {
+		if (!is_numeric($frequency) && !is_string($frequency)) {
 			throw new InvalidArgumentException("Control frequency must be integer or string, " . gettype($frequency) . " given");
 		}
 		$this->frequency = $frequency;
@@ -60,12 +60,12 @@ class Manager implements IManager
 	 */
 	public function check()
 	{
-		if($this->frequency !== null) {
+		if ($this->frequency !== null) {
 			$controlFile = new File(self::CONTROL_FILE);
-			if($controlFile->isUsable()) {
+			if ($controlFile->isUsable()) {
 				$lastControl = $controlFile->read();
 				$time = strtotime("now") - (60 * 60 * 24 * $this->frequency);
-				if($lastControl <= $time) {
+				if ($lastControl <= $time) {
 					$this->deleteFiles($time);
 				}
 			} else {
@@ -85,7 +85,7 @@ class Manager implements IManager
 	{
 		$files = $this->thumbDir->getFiles();
 		/** @var $file \Kappa\FileSystem\File */
-		foreach($files as $path => $file) {
+		foreach ($files as $path => $file) {
 			if ($file->getInfo()->getMTime() <= $time) {
 				if (!$file->remove()) {
 					throw new IOException("File {$file->getInfo->getBasename()} has not been removed");
