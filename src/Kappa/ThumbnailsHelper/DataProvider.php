@@ -9,6 +9,7 @@
  */
 
 namespace Kappa\ThumbnailsHelper;
+
 use Kappa\FileSystem\Directory;
 
 /**
