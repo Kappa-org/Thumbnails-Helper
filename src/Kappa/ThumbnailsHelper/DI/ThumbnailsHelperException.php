@@ -29,12 +29,12 @@ class ThumbnailsHelperException extends CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->getConfig($this->defaultConfig);
-		$builder->addDefinition('thumbnailsHelper.manager')
+		$builder->addDefinition('thumbnails.manager')
 			->setClass('\Kappa\ThumbnailsHelper\Manager')
 			->addSetup('setThumbDir', array($config['thumbDir']))
 			->addSetup('setFrequency', array($config['frequency']));
-		$builder->addDefinition($this->prefix("thumbnailsHelper.thumbnails"))
-			->setClass('Kappa\ThumbnailsHelper\Thumbnails', array($this->prefix('@thumbnailsHelper.manager')))
-			->addSetup('setWwwDir', array($config['wwwwDir']));
+		$builder->addDefinition($this->prefix("thumbnails.helper"))
+			->setClass('Kappa\ThumbnailsHelper\Thumbnails', array('@thumbnails.manager'))
+			->addSetup('setWwwDir', array($config['wwwDir']));
 	}
 }
