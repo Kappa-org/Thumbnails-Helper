@@ -53,7 +53,7 @@ class Thumbnails extends Object
 	 * @param string $flag
 	 * @return string
 	 */
-	public function process($original, array $sizes = array(300, 100), $flag = "fit")
+	public function process($original, array $sizes = array(300, 150), $flag = "fit")
 	{
 		$original = new File($this->wwwDir . DIRECTORY_SEPARATOR . $original);
 		$thumb = $this->createThumbName($original, $sizes);
