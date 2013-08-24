@@ -10,7 +10,6 @@
 
 namespace Kappa\ThumbnailsHelper;
 
-use Kappa\FileSystem\Directory;
 use Kappa\FileSystem\File;
 use Kappa\NetteFileSystem\Image;
 use Nette\Object;
@@ -21,25 +20,16 @@ use Nette\Object;
  */
 class Thumbnails extends Object
 {
-	/** @var array */
-	private $params;
+	/** @var \Kappa\ThumbnailsHelper\IManager */
+	private $manager;
 
 	/**
-	 * @param array $params
-	 * @throws DirectoryNotFoundException
+	 * @param IManager $manager
 	 */
-	public function __construct(array $params)
+	public function __construct(IManager $manager)
 	{
-		if (!is_dir($params['wwwDir'])) {
-			throw new DirectoryNotFoundException("Directory {$params['wwwDir']} has not been found");
-		}
-		if (!is_dir($params['thumbDir'])) {
-			throw new DirectoryNotFoundException("Directory {$params['thumbDir']} has not been found");
-		}
-		$this->params = $params;
-		if ($params['frequency'] !== null) {
-			$this->checkThumbs((int)$params['frequency']);
-		}
+		$this->manager = $manager;
+		$this->manager->check();
 	}
 
 	/**
@@ -109,29 +99,5 @@ class Thumbnails extends Object
 		} else {
 			return $flags[$flag];
 		}
-	}
-
-	/**
-	 * @param int $day
-	 * @throws IOException
-	 */
-	private function checkThumbs($day)
-	{
-		$controlFile = new File($this->params['thumbDir'] . '/lastControl.txt', File::INTUITIVE);
-		$lastControl = (int)$controlFile->read();
-		$time = strtotime("now") - (60 * 60 * 24 * $day);
-		if ($lastControl <= $time) {
-			$directory = new Directory($this->params['thumbDir']);
-			$files = $directory->getFiles();
-			/** @var \Kappa\FileSystem\File $file */
-			foreach ($files as $file) {
-				if ($file->getInfo()->getMTime() <= $time) {
-					if (!$file->remove()) {
-						throw new IOException("File {$file->getInfo->getBasename()} has not been removed");
-					}
-				}
-			}
-		}
-		$controlFile->overwrite(strtotime('now'));
 	}
 }
