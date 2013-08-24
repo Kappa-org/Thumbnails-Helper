@@ -47,9 +47,9 @@ class Manager implements IManager
 	 * @param int|string $frequency
 	 * @throws InvalidArgumentException
 	 */
-	public function setFrequency($frequency)
+	public function setFrequency($frequency = null)
 	{
-		if (!is_numeric($frequency) && !is_string($frequency)) {
+		if ($frequency !== null && (!is_numeric($frequency) && !is_string($frequency))) {
 			throw new InvalidArgumentException("Control frequency must be integer or string, " . gettype($frequency) . " given");
 		}
 		$this->frequency = $frequency;
