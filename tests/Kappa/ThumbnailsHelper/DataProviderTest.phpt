@@ -38,6 +38,16 @@ class DataProviderTest extends TestCase
 			$this->dataProvider->setThumbDir('/non-exist');
 		}, '\Kappa\ThumbnailsHelper\DirectoryNotFoundException');
 	}
+
+	public function testWwwDir()
+	{
+		Assert::null($this->dataProvider->getWwwDir());
+		$this->dataProvider->setWwwDir(__DIR__);
+		Assert::equal(new Directory(__DIR__), $this->dataProvider->getWwwDir());
+		Assert::throws(function () {
+			$this->dataProvider->setWwwDir('/non-exist');
+		}, '\Kappa\ThumbnailsHelper\DirectoryNotFoundException');
+	}
 }
 
 \run(new DataProviderTest());
