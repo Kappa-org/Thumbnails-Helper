@@ -25,25 +25,20 @@ class Thumbnails extends Object
 	private $params;
 
 	/**
-	 * @param string $wwwDir
-	 * @param string $thumbDir
-	 * @param null|int $frequencyControl
+	 * @param array $params
 	 * @throws DirectoryNotFoundException
 	 */
-	public function __construct($wwwDir, $thumbDir, $frequencyControl = null)
+	public function __construct(array $params)
 	{
-		if (!is_dir($wwwDir)) {
-			throw new DirectoryNotFoundException("Directory {$wwwDir} has not been found");
+		if (!is_dir($params['wwwDir'])) {
+			throw new DirectoryNotFoundException("Directory {$params['wwwDir']} has not been found");
 		}
-		if (!is_dir($thumbDir)) {
-			throw new DirectoryNotFoundException("Directory {$thumbDir} has not been found");
+		if (!is_dir($params['thumbDir'])) {
+			throw new DirectoryNotFoundException("Directory {$params['thumbDir']} has not been found");
 		}
-		$this->params = array(
-			'wwwDir' => realpath($wwwDir),
-			'thumbDir' => realpath($thumbDir),
-		);
-		if ($frequencyControl) {
-			$this->checkThumbs((int)$frequencyControl);
+		$this->params = $params;
+		if ($params['frequency'] !== null) {
+			$this->checkThumbs((int)$params['frequency']);
 		}
 	}
 
