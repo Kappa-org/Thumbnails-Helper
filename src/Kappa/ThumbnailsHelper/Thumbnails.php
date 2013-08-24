@@ -86,7 +86,7 @@ class Thumbnails extends Object
 
 		$newName = "_thumb";
 		$newName .= $sizes[0] . 'x' . $sizes[1];
-		$newName .= '_' . $original->getHash();
+		$newName .= '_' . md5($original->getInfo()->getPathname());
 		$newName .= '_' . $original->getInfo()->getMTime();
 		$newName .= $original->getInfo()->getFileExtension();
 
