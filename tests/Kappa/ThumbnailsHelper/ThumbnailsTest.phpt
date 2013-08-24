@@ -40,6 +40,8 @@ class ThumbnailsTest extends TestCase
 		$dataProvider = new DataProvider();
 		$this->wwwDir = __DIR__ . '/../../data/www';
 		$this->thumbDir = __DIR__ . '/../../data/www/thumb';
+		if(!file_exists($this->thumbDir))
+			@mkdir($this->thumbDir);
 		$dataProvider->setWwwDir($this->wwwDir);
 		$dataProvider->setThumbDir($this->thumbDir);
 		$dataProvider->setFrequency(0.000001);
