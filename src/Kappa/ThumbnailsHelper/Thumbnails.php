@@ -23,6 +23,9 @@ class Thumbnails extends Object
 	/** @var \Kappa\ThumbnailsHelper\IManager */
 	private $manager;
 
+	/** @var string */
+	private $wwwDir;
+
 	/**
 	 * @param IManager $manager
 	 */
@@ -33,6 +36,18 @@ class Thumbnails extends Object
 	}
 
 	/**
+	 * @param string $wwwDir
+	 * @throws DirectoryNotFoundException
+	 */
+	public function setWwwDir($wwwDir)
+	{
+		if (!is_dir($wwwDir)) {
+			throw new DirectoryNotFoundException("Directory {$wwwDir} has not been found");
+		}
+		$this->wwwDir = $wwwDir;
+	}
+
+	/**
 	 * @param string $original
 	 * @param array $sizes
 	 * @param string $flag
@@ -40,21 +55,22 @@ class Thumbnails extends Object
 	 */
 	public function process($original, array $sizes = array(300, 100), $flag = "fit")
 	{
-		$original = new File($this->params['wwwDir'] . DIRECTORY_SEPARATOR . $original);
+		$original = new File($this->wwwDir . DIRECTORY_SEPARATOR . $original);
 		$thumb = $this->createThumbName($original, $sizes);
 		$imageInfo = @getimagesize($original->getInfo()->getPathname());
 		if (file_exists($thumb)) {
 			$file = new File($thumb);
-			return $file->getInfo()->getRelativePath($this->params['wwwDir']);
+
+			return $file->getInfo()->getRelativePath($this->wwwDir);
 		}
-		if($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {
-			return $original->getInfo()->getRelativePath($this->params['wwwDir']);
+		if ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {
+			return $original->getInfo()->getRelativePath($this->wwwDir);
 		} else {
 			$image = Image::fromFile($original->getInfo()->getPathname());
 			$image->resize(300, 100, $this->getFlag($flag));
 			$file = $image->save($thumb);
 
-			return $file->getInfo()->getRelativePath($this->params['wwwDir']);
+			return $file->getInfo()->getRelativePath($this->wwwDir);
 		}
 	}
 
