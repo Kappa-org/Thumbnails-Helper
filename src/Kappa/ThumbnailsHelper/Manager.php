@@ -37,7 +37,7 @@ class Manager implements IManager
 	public function check()
 	{
 		if ($this->dataProvider->getFrequency() !== null) {
-			$controlFile = new File(self::CONTROL_FILE);
+			$controlFile = new File($this->dataProvider->getThumbDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . self::CONTROL_FILE);
 			if ($controlFile->isUsable()) {
 				$lastControl = $controlFile->read();
 				$time = strtotime("now") - (60 * 60 * 24 * $this->dataProvider->getFrequency());
