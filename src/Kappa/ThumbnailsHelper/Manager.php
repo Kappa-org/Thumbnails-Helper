@@ -23,7 +23,7 @@ class Manager implements IManager
 	private $thumbDir;
 
 	/** @var int|string */
-	private $frequency;
+	private $frequency = null;
 
 	const CONTROL_FILE = '_kappa-thumbnails-helper-control-file.txt';
 
@@ -60,16 +60,18 @@ class Manager implements IManager
 	 */
 	public function check()
 	{
-		$controlFile = new File(self::CONTROL_FILE);
-		if($controlFile->isUsable()) {
-			$lastControl = $controlFile->read();
-			$time = strtotime("now") - (60 * 60 * 24 * $this->frequency);
-			if($lastControl <= $time) {
-				$this->deleteFiles($time);
+		if($this->frequency !== null) {
+			$controlFile = new File(self::CONTROL_FILE);
+			if($controlFile->isUsable()) {
+				$lastControl = $controlFile->read();
+				$time = strtotime("now") - (60 * 60 * 24 * $this->frequency);
+				if($lastControl <= $time) {
+					$this->deleteFiles($time);
+				}
+			} else {
+				$controlFile->create();
+				$controlFile->overwrite(strtotime('now'));
 			}
-		} else {
-			$controlFile->create();
-			$controlFile->overwrite(strtotime('now'));
 		}
 	}
 
