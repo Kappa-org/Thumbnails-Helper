@@ -62,8 +62,7 @@ class Thumbnails extends Object
 			$file = new File($thumb);
 
 			return $file->getInfo()->getRelativePath($this->wwwDir);
-		}
-		if ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {
+		} elseif ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {
 			return $original->getInfo()->getRelativePath($this->wwwDir);
 		} else {
 			$image = Image::fromFile($original->getInfo()->getPathname());
