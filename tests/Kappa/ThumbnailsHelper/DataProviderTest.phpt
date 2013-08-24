@@ -48,6 +48,16 @@ class DataProviderTest extends TestCase
 			$this->dataProvider->setWwwDir('/non-exist');
 		}, '\Kappa\ThumbnailsHelper\DirectoryNotFoundException');
 	}
+
+	public function testFrequency()
+	{
+		Assert::null($this->dataProvider->getFrequency());
+		$this->dataProvider->setFrequency(5);
+		Assert::equal(5, $this->dataProvider->getFrequency());
+		Assert::throws(function () {
+			$this->dataProvider->setFrequency(array());
+		}, '\Kappa\ThumbnailsHelper\InvalidArgumentException');
+	}
 }
 
 \run(new DataProviderTest());
