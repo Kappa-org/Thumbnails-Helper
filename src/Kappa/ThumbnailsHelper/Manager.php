@@ -10,7 +10,6 @@
 
 namespace Kappa\ThumbnailsHelper;
 
-use Kappa\FileSystem\Directory;
 use Kappa\FileSystem\File;
 
 /**
@@ -19,40 +18,17 @@ use Kappa\FileSystem\File;
  */
 class Manager implements IManager
 {
-	/** @var \Kappa\FileSystem\Directory */
-	private $thumbDir;
-
-	/** @var int|string */
-	private $frequency = null;
+	/** @var DataProvider */
+	private $dataProvider;
 
 	const CONTROL_FILE = '_kappa-thumbnails-helper-control-file.txt';
 
 	/**
-	 * Set path to thumb directory
-	 *
-	 * @param string $thumbDir
-	 * @throws DirectoryNotFoundException
+	 * @param DataProvider $dataProvider
 	 */
-	public function setThumbDir($thumbDir)
+	public function __construct(DataProvider $dataProvider)
 	{
-		$this->thumbDir = new Directory($thumbDir);
-		if (!$this->thumbDir->isUsable()) {
-			throw new DirectoryNotFoundException("Directory {$thumbDir} has not been found");
-		}
-	}
-
-	/**
-	 * Set control frequency
-	 *
-	 * @param int|string $frequency
-	 * @throws InvalidArgumentException
-	 */
-	public function setFrequency($frequency = null)
-	{
-		if ($frequency !== null && (!is_numeric($frequency) && !is_string($frequency))) {
-			throw new InvalidArgumentException("Control frequency must be integer or string, " . gettype($frequency) . " given");
-		}
-		$this->frequency = $frequency;
+		$this->dataProvider = $dataProvider;
 	}
 
 	/**
@@ -60,11 +36,11 @@ class Manager implements IManager
 	 */
 	public function check()
 	{
-		if ($this->frequency !== null) {
+		if ($this->dataProvider->getFrequency() !== null) {
 			$controlFile = new File(self::CONTROL_FILE);
 			if ($controlFile->isUsable()) {
 				$lastControl = $controlFile->read();
-				$time = strtotime("now") - (60 * 60 * 24 * $this->frequency);
+				$time = strtotime("now") - (60 * 60 * 24 * $this->dataProvider->getFrequency());
 				if ($lastControl <= $time) {
 					$this->deleteFiles($time);
 				}
@@ -83,7 +59,7 @@ class Manager implements IManager
 	 */
 	private function deleteFiles($time)
 	{
-		$files = $this->thumbDir->getFiles();
+		$files = $this->dataProvider->getThumbDir()->getFiles();
 		/** @var $file \Kappa\FileSystem\File */
 		foreach ($files as $path => $file) {
 			if ($file->getInfo()->getMTime() <= $time) {

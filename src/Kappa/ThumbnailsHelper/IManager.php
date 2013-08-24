@@ -17,22 +17,6 @@ namespace Kappa\ThumbnailsHelper;
 interface IManager
 {
 	/**
-	 * Set path to thumb directory
-	 *
-	 * @param string $thumbDir
-	 * @return void
-	 */
-	public function setThumbDir($thumbDir);
-
-	/**
-	 * Set control frequency
-	 *
-	 * @param int|string $frequency
-	 * @return void
-	 */
-	public function setFrequency($frequency);
-
-	/**
 	 * Check all thumbnails and delete older
 	 *
 	 * @return void

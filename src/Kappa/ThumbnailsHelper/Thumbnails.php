@@ -20,32 +20,19 @@ use Nette\Object;
  */
 class Thumbnails extends Object
 {
-	/** @var \Kappa\ThumbnailsHelper\IManager */
-	private $manager;
-
-	/** @var string */
-	private $wwwDir;
+	/** @var \Kappa\ThumbnailsHelper\DataProvider */
+	private $dataProvider;
 
 	/**
+	 * @param DataProvider $dataProvider
 	 * @param IManager $manager
 	 */
-	public function __construct(IManager $manager)
+	public function __construct(DataProvider $dataProvider, IManager $manager)
 	{
-		$this->manager = $manager;
-		$this->manager->check();
+		$this->dataProvider = $dataProvider;
+		$manager->check();
 	}
 
-	/**
-	 * @param string $wwwDir
-	 * @throws DirectoryNotFoundException
-	 */
-	public function setWwwDir($wwwDir)
-	{
-		if (!is_dir($wwwDir)) {
-			throw new DirectoryNotFoundException("Directory {$wwwDir} has not been found");
-		}
-		$this->wwwDir = $wwwDir;
-	}
 
 	/**
 	 * @param string $original
@@ -55,21 +42,21 @@ class Thumbnails extends Object
 	 */
 	public function process($original, array $sizes = array(300, 150), $flag = "fit")
 	{
-		$original = new File($this->wwwDir . DIRECTORY_SEPARATOR . $original);
+		$original = new File($this->dataProvider->getWwwDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . $original);
 		$thumb = $this->createThumbName($original, $sizes);
 		$imageInfo = @getimagesize($original->getInfo()->getPathname());
 		if (file_exists($thumb)) {
 			$file = new File($thumb);
 
-			return $file->getInfo()->getRelativePath($this->wwwDir);
+			return $file->getInfo()->getRelativePath($this->dataProvider->getWwwDir()->getInfo()->getPathname());
 		} elseif ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {
-			return $original->getInfo()->getRelativePath($this->wwwDir);
+			return $original->getInfo()->getRelativePath($this->dataProvider->getWwwDir()->getInfo()->getPathname());
 		} else {
 			$image = Image::fromFile($original->getInfo()->getPathname());
 			$image->resize($sizes[0], $sizes[1], $this->getFlag($flag));
 			$file = $image->save($thumb);
 
-			return $file->getInfo()->getRelativePath($this->wwwDir);
+			return $file->getInfo()->getRelativePath($this->dataProvider->getWwwDir()->getInfo()->getPathname());
 		}
 	}
 
@@ -81,7 +68,7 @@ class Thumbnails extends Object
 	private function createThumbName(File $original, array $sizes)
 	{
 
-		$path = $this->params['thumbDir'];
+		$path = $this->dataProvider->getThumbDir()->getInfo()->getPathname();
 		$path .= '/' . $original->getInfo()->getBasename();
 
 		$newName = "_thumb";
