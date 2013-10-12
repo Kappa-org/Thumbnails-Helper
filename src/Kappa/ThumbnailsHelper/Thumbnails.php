@@ -11,7 +11,7 @@
 namespace Kappa\ThumbnailsHelper;
 
 use Kappa\FileSystem\File;
-use Kappa\NetteFileSystem\Image;
+use Kappa\FileSystem\Image;
 use Nette\Object;
 
 /**
@@ -42,11 +42,12 @@ class Thumbnails extends Object
 	 */
 	public function process($original, array $sizes = array(300, 150), $flag = "fit")
 	{
-		$original = new File($this->dataProvider->getWwwDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . $original);
+		$path = $this->dataProvider->getWwwDir()->getPath() . DIRECTORY_SEPARATOR . $original;
+		$original = new File($path, File::LOAD);
 		$thumb = $this->createThumbName($original, $sizes);
-		$imageInfo = @getimagesize($original->getInfo()->getPathname());
+		$imageInfo = @getimagesize($original->getPath());
 		if (file_exists($thumb)) {
-			$file = new File($thumb);
+			$file = new File($thumb, File::LOAD);
 
 			return $file->getInfo()->getRelativePath($this->dataProvider->getWwwDir()->getInfo()->getPathname());
 		} elseif ($imageInfo[0] <= $sizes[0] && $imageInfo[1] <= $sizes[1]) {

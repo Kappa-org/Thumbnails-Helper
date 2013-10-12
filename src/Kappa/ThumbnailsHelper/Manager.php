@@ -37,15 +37,16 @@ class Manager implements IManager
 	public function check()
 	{
 		if ($this->dataProvider->getFrequency() !== null) {
-			$controlFile = new File($this->dataProvider->getThumbDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . self::CONTROL_FILE);
-			if ($controlFile->isUsable()) {
+			$path = $this->dataProvider->getThumbDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . self::CONTROL_FILE;
+			if (file_exists($path)) {
+				$controlFile = new File($path, File::LOAD);
 				$lastControl = $controlFile->read();
 				$time = strtotime("now") - (60 * 60 * 24 * $this->dataProvider->getFrequency());
 				if ($lastControl <= $time) {
 					$this->deleteFiles($time);
 				}
 			} else {
-				$controlFile->create();
+				$controlFile = new File($path, File::CREATE);
 				$controlFile->overwrite(strtotime('now'));
 			}
 		}
@@ -64,7 +65,7 @@ class Manager implements IManager
 		foreach ($files as $path => $file) {
 			if ($file->getInfo()->getMTime() <= $time) {
 				if (!$file->remove()) {
-					throw new IOException("File {$file->getInfo->getBasename()} has not been removed");
+					throw new IOException("File {$file->getBasename()} has not been removed");
 				}
 			}
 		}

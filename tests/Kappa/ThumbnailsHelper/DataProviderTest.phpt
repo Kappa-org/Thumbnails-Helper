@@ -33,20 +33,20 @@ class DataProviderTest extends TestCase
 	{
 		Assert::null($this->dataProvider->getThumbDir());
 		$this->dataProvider->setThumbDir(__DIR__);
-		Assert::equal(new Directory(__DIR__), $this->dataProvider->getThumbDir());
+		Assert::equal(new Directory(__DIR__, Directory::LOAD), $this->dataProvider->getThumbDir());
 		Assert::throws(function () {
 			$this->dataProvider->setThumbDir('/non-exist');
-		}, '\Kappa\ThumbnailsHelper\DirectoryNotFoundException');
+		}, '\Kappa\FileSystem\DirectoryNotFoundException');
 	}
 
 	public function testWwwDir()
 	{
 		Assert::null($this->dataProvider->getWwwDir());
 		$this->dataProvider->setWwwDir(__DIR__);
-		Assert::equal(new Directory(__DIR__), $this->dataProvider->getWwwDir());
+		Assert::equal(new Directory(__DIR__, Directory::LOAD), $this->dataProvider->getWwwDir());
 		Assert::throws(function () {
 			$this->dataProvider->setWwwDir('/non-exist');
-		}, '\Kappa\ThumbnailsHelper\DirectoryNotFoundException');
+		}, '\Kappa\FileSystem\DirectoryNotFoundException');
 	}
 
 	public function testFrequency()

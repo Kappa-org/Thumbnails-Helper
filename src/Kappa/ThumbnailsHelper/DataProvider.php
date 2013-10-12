@@ -28,17 +28,11 @@ class DataProvider implements IDataProvider
 	private $frequency;
 
 	/**
-	 * Set path to thumb directory
-	 *
-	 * @param string $thumbDir
-	 * @throws DirectoryNotFoundException
+	 * @param Directory $thumbDir
 	 */
 	public function setThumbDir($thumbDir)
 	{
-		$this->thumbDir = new Directory($thumbDir);
-		if (!$this->thumbDir->isUsable()) {
-			throw new DirectoryNotFoundException("Directory {$thumbDir} has not been found");
-		}
+		$this->thumbDir = new Directory($thumbDir, Directory::LOAD);
 	}
 
 	/**
@@ -56,15 +50,11 @@ class DataProvider implements IDataProvider
 	}
 
 	/**
-	 * @param string $wwwDir
-	 * @throws DirectoryNotFoundException
+	 * @param Directory $wwwDir
 	 */
 	public function setWwwDir($wwwDir)
 	{
-		$this->wwwDir = new Directory($wwwDir);
-		if (!$this->wwwDir->isUsable()) {
-			throw new DirectoryNotFoundException("Directory {$wwwDir} has not been found");
-		}
+		$this->wwwDir = new Directory($wwwDir, Directory::LOAD);
 	}
 
 	/**
