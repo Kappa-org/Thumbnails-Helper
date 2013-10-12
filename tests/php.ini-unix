@@ -1,3 +1,2 @@
 [PHP]
-extension_dir = "./ext"
-extension=php_gd2.dll
+extension=gd.so
