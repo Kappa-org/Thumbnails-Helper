@@ -43,7 +43,11 @@ class Thumbnails extends Object
 	public function process($original, array $sizes = array(300, 150), $flag = "exact")
 	{
 		$path = $this->dataProvider->getWwwDir()->getPath() . DIRECTORY_SEPARATOR . $original;
-		$original = new File($path, File::LOAD);
+		try {
+			$original = new File($path, File::LOAD);
+		} catch(\Exception $e) {
+			return "";
+		}
 		$thumb = $this->createThumbName($original, $sizes);
 		$imageInfo = @getimagesize($original->getPath());
 		if (file_exists($thumb)) {
