@@ -1,6 +1,6 @@
 # Kappa\ThumbnailsHelper
 
-Inteligent heper for work with thumbnail in Nette/Latte templates
+Simple and intelligent system for creating and work with thumbnails
 
 ## Requirements:
 

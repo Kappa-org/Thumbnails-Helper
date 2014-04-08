@@ -1,6 +1,6 @@
 {
 	"name": "kappa/thumbnails-helper",
-	"description": "Inteligent heper for work with thumbnail in Nette/Latte templates",
+	"description": "Simple and intelligent system for creating and work with thumbnails",
 	"keywords": ["framework", "Nette", "Kappa", "Thumbnails", "helpers"],
 	"homepage": "https://github.com/Kappa-org/Thumbnails-Helper",
 	"type": "library",
