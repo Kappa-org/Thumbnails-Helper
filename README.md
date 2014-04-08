@@ -4,7 +4,7 @@ Simple and intelligent system for creating and work with thumbnails
 
 ## Requirements:
 
-* PHP 5.3.3 or higher
+* PHP 5.3.6 or higher
 * [Nette\DI](https://github.com/nette/di) 2.2.*
 * [Flame\Module](https://github.com/flame-org/modules) 1.0.*
 * [Kappa\FileSystem](https://github.com/Kappa-org/FileSystem)
