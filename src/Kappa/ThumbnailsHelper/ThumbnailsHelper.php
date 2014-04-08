@@ -40,8 +40,8 @@ class ThumbnailsHelper
 		$thumb = new Thumbnails($this->configurator);
 		$thumb->setSizes($sizes)
 			->setFlag($flag)
-			->setSource($source);
+			->setSource($this->configurator->getWwwDir() . DIRECTORY_SEPARATOR . $source);
 
-		return  $thumb->getThumb();
+		return  $thumb->getThumb()->getRelativePath($this->configurator->getWwwDir());
 	}
 } 
