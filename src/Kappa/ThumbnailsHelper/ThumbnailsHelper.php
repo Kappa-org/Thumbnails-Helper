@@ -35,7 +35,7 @@ class ThumbnailsHelper
 	 * @param string $flag
 	 * @return \Kappa\FileSystem\SplFileInfo
 	 */
-	public function process($source, $sizes, $flag)
+	public function process($source, $sizes, $flag = 'fit')
 	{
 		$thumb = new Thumbnails($this->configurator);
 		$thumb->setSizes($sizes)
