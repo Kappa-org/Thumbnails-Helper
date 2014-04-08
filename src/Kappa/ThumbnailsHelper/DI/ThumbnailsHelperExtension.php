@@ -46,7 +46,7 @@ class ThumbnailsHelperExtension extends CompilerExtension implements ITemplateHe
 	{
 		$config = $this->getConfig(array('name' => 'thumb'));
 		return array(
-			$config['name'] = array($this->prefix('@thumbnailsHelper', 'process'))
+			$config['name'] => array($this->prefix('@thumbnailsHelper'), 'process')
 		);
 	}
 }
