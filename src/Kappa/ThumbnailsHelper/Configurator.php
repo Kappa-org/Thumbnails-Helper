@@ -25,6 +25,28 @@ class Configurator
 	/** @var double */
 	private $controlFrequency;
 
+	/** @var bool */
+	private $sizeUp;
+
+	/**
+	 * @param bool $sizeUp
+	 * @return $this
+	 */
+	public function setSizeUp($sizeUp)
+	{
+		$this->sizeUp = $sizeUp;
+
+		return $this;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getSizeUp()
+	{
+		return $this->sizeUp;
+	}
+
 	/**
 	 * @param string $path
 	 * @return $this
@@ -35,7 +57,7 @@ class Configurator
 		if (!is_dir($path) || !is_writable($path)) {
 			throw new DirectoryNotFoundException("Thumbnail directory '{$path}' has not been found");
 		}
-		$this->thumbDir = $path;
+		$this->thumbDir = realpath($path);
 
 		return $this;
 	}
@@ -58,7 +80,7 @@ class Configurator
 		if (!is_dir($path) || !is_writable($path)) {
 			throw new DirectoryNotFoundException("WWW directory '{$path}' has not been found");
 		}
-		$this->wwwDir = $path;
+		$this->wwwDir = realpath($path);
 
 		return $this;
 	}

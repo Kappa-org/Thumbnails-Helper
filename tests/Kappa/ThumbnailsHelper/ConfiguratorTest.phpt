@@ -30,9 +30,11 @@ class ConfiguratorTest extends TestCase
 		Assert::type('Kappa\ThumbnailsHelper\Configurator', $configurator->setThumbDir(__DIR__));
 		Assert::type('Kappa\ThumbnailsHelper\Configurator', $configurator->setWwwDir(__DIR__ . '/../'));
 		Assert::type('Kappa\ThumbnailsHelper\Configurator', $configurator->setControlFrequency(0.5));
+		Assert::type('Kappa\ThumbnailsHelper\Configurator', $configurator->setSizeUp(true));
 		Assert::same(__DIR__, $configurator->getThumbDir());
-		Assert::same(__DIR__ . '/../', $configurator->getWwwDir());
+		Assert::same(realpath(__DIR__ . '/../'), $configurator->getWwwDir());
 		Assert::same(0.5, $configurator->getControlFrequency());
+		Assert::true($configurator->getSizeUp());
 
 		Assert::throws(function() use($configurator) {
 			$configurator->setThumbDir('thumbDir');
