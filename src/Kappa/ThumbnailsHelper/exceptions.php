@@ -27,3 +27,12 @@ class InvalidArgumentException extends \LogicException
 {
 
 }
+
+/**
+ * Class ImageNotFoundException
+ * @package Kappa\ThumbnailsHelper
+ */
+class ImageNotFoundException extends \LogicException
+{
+
+}
