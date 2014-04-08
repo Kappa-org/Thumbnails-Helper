@@ -10,13 +10,14 @@
 
 namespace Kappa\ThumbnailsHelper\DI;
 
+use Flame\Modules\Providers\ITemplateHelpersProvider;
 use Nette\DI\CompilerExtension;
 
 /**
  * Class ThumbnailsHelperExtension
  * @package Kappa\ThumbnailsHelper\DI
  */
-class ThumbnailsHelperExtension extends CompilerExtension
+class ThumbnailsHelperExtension extends CompilerExtension implements ITemplateHelpersProvider
 {
 	public function loadConfiguration()
 	{
@@ -34,4 +35,17 @@ class ThumbnailsHelperExtension extends CompilerExtension
 		$builder->addDefinition($this->prefix('@thumbnailsHelper'))
 			->setClass('Kappa\ThumbnailsHelper\ThumbnailsHelper', array($this->prefix('@configurator')));
 	}
-} 
+
+	/**
+	 * Return list of helpers definitions or providers
+	 *
+	 * @return array
+	 */
+	public function getHelpersConfiguration()
+	{
+		$config = $this->getConfig(array('name' => 'thumb'));
+		return array(
+			$config['name'] = array($this->prefix('@thumbnailsHelper', 'process'))
+		);
+	}
+}
