@@ -23,13 +23,14 @@ class ThumbnailsHelperExtension extends CompilerExtension implements ITemplateHe
 	{
 		$config = $this->getConfig(array(
 			'thumbDir' => '%wwwDir%/thumb',
+			'wwwDir' => '%wwwDir%',
 			'sizeUp' => false,
 		));
 		$builder = $this->getContainerBuilder();
 		$builder->addDefinition($this->prefix('@configurator'))
 			->setClass('Kappa\ThumbnailsHelper\Configurator')
 			->addSetup('setThumbDir', array($config['thumbDir']))
-			->addSetup('setWwwDir', array('%wwwDir%'))
+			->addSetup('setWwwDir', array($config['wwwDir']))
 			->addSetup('setSizeUp', array($config['sizeUp']));
 
 		$builder->addDefinition($this->prefix('@thumbnailsHelper'))
