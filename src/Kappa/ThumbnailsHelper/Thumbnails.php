@@ -93,7 +93,7 @@ class Thumbnails
 			throw new InvalidArgumentException("Missing source");
 		}
 		$thumbName = $this->getThumbnailName();
-		$thumbnail = $this->configurator->getThumbDir() . DIRECTORY_SEPARATOR . $thumbName;
+		$thumbnail = $this->configurator->getThumbDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . $thumbName;
 		if (is_file($thumbnail)) {
 			return new SplFileInfo($thumbnail);
 		} else {

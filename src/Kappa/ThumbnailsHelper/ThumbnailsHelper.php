@@ -9,6 +9,7 @@
  */
 
 namespace Kappa\ThumbnailsHelper;
+
 use Kappa\FileSystem\File;
 use Kappa\FileSystem\Image;
 
@@ -40,8 +41,8 @@ class ThumbnailsHelper
 		$thumb = new Thumbnails($this->configurator);
 		$thumb->setSizes($sizes)
 			->setFlag($flag)
-			->setSource($this->configurator->getWwwDir() . DIRECTORY_SEPARATOR . $source);
+			->setSource($this->configurator->getWwwDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . $source);
 
-		return  $thumb->getThumb()->getRelativePath($this->configurator->getWwwDir());
+		return  $thumb->getThumb()->getRelativePath($this->configurator->getWwwDir()->getInfo()->getPathname());
 	}
 } 

@@ -10,16 +10,18 @@
 
 namespace Kappa\ThumbnailsHelper;
 
+use Kappa\FileSystem\Directory;
+
 /**
  * Class Configurator
  * @package Kappa
  */
-class Configurator 
+class Configurator
 {
-	/** @var string */
+	/** @var \Kappa\FileSystem\Directory */
 	private $thumbDir;
 
-	/** @var string */
+	/** @var \Kappa\FileSystem\Directory */
 	private $wwwDir;
 
 	/** @var double */
@@ -57,13 +59,13 @@ class Configurator
 		if (!is_dir($path) || !is_writable($path)) {
 			throw new DirectoryNotFoundException("Thumbnail directory '{$path}' has not been found");
 		}
-		$this->thumbDir = realpath($path);
+		$this->thumbDir = Directory::open($path);
 
 		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return Directory
 	 */
 	public function getThumbDir()
 	{
@@ -80,13 +82,13 @@ class Configurator
 		if (!is_dir($path) || !is_writable($path)) {
 			throw new DirectoryNotFoundException("WWW directory '{$path}' has not been found");
 		}
-		$this->wwwDir = realpath($path);
+		$this->wwwDir = Directory::open($path);
 
 		return $this;
 	}
 
 	/**
-	 * @return string
+	 * @return Directory
 	 */
 	public function getWwwDir()
 	{
