@@ -24,7 +24,7 @@ class Configurator
 	/** @var \Kappa\FileSystem\Directory */
 	private $wwwDir;
 
-	/** @var double */
+	/** @var double|bool */
 	private $controlFrequency;
 
 	/** @var bool */
