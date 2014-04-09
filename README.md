@@ -49,3 +49,5 @@ Third argument is resize type, for more info see [documentation](http://doc.nett
 Helper can be configure in config:
 * ```thumbDir:``` - set path to thumb dir **with %wwwDir%** (example ```%wwwDir%/thumbs```)
 * ```sizeUp``` - you can set to true or false when you want small image resize to big image
+* ```controlFrequency``` - you can set count of days for invalidate storage (remove all thumbnails and create a new only
+from usages images). If you set this option on ```false``` or remove option automatically control has been disabled
