@@ -34,13 +34,15 @@ class ThumbStorage
 
 	public function invalidateStorage()
 	{
-		if ($this->needInvalidate() && $this->configurator->getControlFrequency() !== false) {
-			/** @var \Kappa\FileSystem\File $file */
-			foreach ($this->configurator->getThumbDir()->getFiles() as $file) {
-				if ($file->getInfo()->getBasename() != self::CONTROL_FILE) {
-					FileSystem::remove($file);
-				} else {
-					$file->overwrite(time());
+		if ($this->configurator->getControlFrequency() !== false) {
+			if ($this->needInvalidate()) {
+				/** @var \Kappa\FileSystem\File $file */
+				foreach ($this->configurator->getThumbDir()->getFiles() as $file) {
+					if ($file->getInfo()->getBasename() != self::CONTROL_FILE) {
+						FileSystem::remove($file);
+					} else {
+						$file->overwrite(time());
+					}
 				}
 			}
 		}
