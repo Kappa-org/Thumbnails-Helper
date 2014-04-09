@@ -96,13 +96,13 @@ class Configurator
 	}
 
 	/**
-	 * @param double $days
+	 * @param double|bool $days
 	 * @return $this
 	 * @throws \Kappa\ThumbnailsHelper\InvalidArgumentException
 	 */
 	public function setControlFrequency($days)
 	{
-		if (!is_numeric($days)) {
+		if (!is_numeric($days) && !is_bool($days)) {
 			throw new InvalidArgumentException("Control frequency must be count of days (int, double)");
 		}
 		$this->controlFrequency = $days;

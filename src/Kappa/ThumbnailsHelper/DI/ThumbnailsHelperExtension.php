@@ -25,16 +25,24 @@ class ThumbnailsHelperExtension extends CompilerExtension implements ITemplateHe
 			'thumbDir' => '%wwwDir%/thumb',
 			'wwwDir' => '%wwwDir%',
 			'sizeUp' => false,
+			'controlFrequency' => false
 		));
 		$builder = $this->getContainerBuilder();
 		$builder->addDefinition($this->prefix('configurator'))
 			->setClass('Kappa\ThumbnailsHelper\Configurator')
 			->addSetup('setThumbDir', array($config['thumbDir']))
 			->addSetup('setWwwDir', array($config['wwwDir']))
-			->addSetup('setSizeUp', array($config['sizeUp']));
+			->addSetup('setSizeUp', array($config['sizeUp']))
+			->addSetup('setControlFrequency', array($config['controlFrequency']));
+
+		$builder->addDefinition($this->prefix('thumbStorage'))
+			->setClass('Kappa\ThumbnailsHelper\ThumbStorage', array($this->prefix('@configurator')));
 
 		$builder->addDefinition($this->prefix('thumbnailsHelper'))
-			->setClass('Kappa\ThumbnailsHelper\ThumbnailsHelper', array($this->prefix('@configurator')));
+			->setClass('Kappa\ThumbnailsHelper\ThumbnailsHelper', array(
+				$this->prefix('@configurator'),
+				$this->prefix('@thumbStorage')
+			));
 	}
 
 	/**

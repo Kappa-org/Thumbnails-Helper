@@ -24,10 +24,12 @@ class ThumbnailsHelper
 
 	/**
 	 * @param Configurator $configurator
+	 * @param ThumbStorage $thumbStorage
 	 */
-	public function __construct(Configurator $configurator)
+	public function __construct(Configurator $configurator, ThumbStorage $thumbStorage)
 	{
 		$this->configurator = $configurator;
+		$thumbStorage->invalidateStorage();
 	}
 
 	/**
