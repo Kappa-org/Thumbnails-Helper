@@ -34,10 +34,14 @@ class ThumbnailsTest extends TestCase
 	protected function setUp()
 	{
 		$this->wwwDir = realpath(__DIR__ . '/../../data/www');
-		$this->thumbDir = realpath($this->wwwDir . '/thumb');
+		$this->thumbDir = $this->wwwDir . '/thumb';
 		$this->configurator = new Configurator();
 		$this->configurator->setWwwDir($this->wwwDir);
 		$this->configurator->setThumbDir($this->thumbDir);
+		if (!is_dir($this->thumbDir)) {
+			mkdir($this->thumbDir);
+			$this->thumbDir = realpath($this->thumbDir);
+		}
 	}
 
 	public function testCreateThumbName()
@@ -47,7 +51,7 @@ class ThumbnailsTest extends TestCase
 			->setSizes('10x10')
 			->setFlag('fill');
 		$fs = new \FilesystemIterator($this->thumbDir, \FilesystemIterator::SKIP_DOTS);
-		Assert::same(1, iterator_count($fs));
+		Assert::same(0, iterator_count($fs));
 		$spl = $thumbnails->getThumb();
 		Assert::type('\Kappa\FileSystem\SplFileInfo', $spl);
 		$expected = getimagesize($spl->getPathname());

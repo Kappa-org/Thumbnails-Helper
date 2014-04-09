@@ -34,6 +34,9 @@ class ThumbnailsHelperTest extends TestCase
 		$configurator->setWwwDir(__DIR__ . '/../../data/www')
 			->setThumbDir(__DIR__ . '/../../data/www/thumb');
 		$this->thumbnailHelper = new ThumbnailsHelper($configurator);
+		if (!is_dir(__DIR__ . '/../../data/www/thumb')) {
+			mkdir(__DIR__ . '/../../data/www/thumb');
+		}
 	}
 
 	public function testProcess()

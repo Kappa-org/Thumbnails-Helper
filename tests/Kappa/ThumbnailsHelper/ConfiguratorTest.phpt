@@ -25,6 +25,13 @@ require_once __DIR__ . '/../bootstrap.php';
  */
 class ConfiguratorTest extends TestCase
 {
+	protected function setUp()
+	{
+		if (!is_dir(__DIR__ . '/../../data/www/thumb'	)) {
+			mkdir(__DIR__ . '/../../data/www/thumb'	);
+		}
+	}
+
 	public function testConfigurator()
 	{
 		$configurator = new Configurator();
