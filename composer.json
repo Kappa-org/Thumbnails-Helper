@@ -19,7 +19,7 @@
 	"require": {
 		"php": ">= 5.3.6",
 		"nette/di": "2.2.*",
-		"flame/modules": "1.0.*",
+		"flame/modules": "@dev",
 		"kappa/filesystem": "@dev"
 	},
 	"require-dev": {
