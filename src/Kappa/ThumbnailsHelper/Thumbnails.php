@@ -101,7 +101,7 @@ class Thumbnails
 			if (!$this->configurator->getSizeUp() && $image->width <= $this->sizes[0] && $image->getHeight() <= $this->sizes[1]) {
 				return $this->source->getInfo();
 			} else {
-				$image->resize($this->sizes[0], $this->sizes[1]);
+				$image->resize($this->sizes[0], $this->sizes[1], $this->flag);
 				$file = File::fromImage($image, $thumbnail);
 
 				return $file->getInfo();
