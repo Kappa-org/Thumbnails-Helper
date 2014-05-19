@@ -19,7 +19,7 @@
 	"require": {
 		"php": ">= 5.3.6",
 		"nette/nette": "2.1.*",
-		"kappa/filesystem": "@dev"
+		"kappa/filesystem": "~4.1.1"
 	},
 	"require-dev": {
 		"kappa/tester": "1.1.*"
