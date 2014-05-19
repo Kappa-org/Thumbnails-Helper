@@ -37,10 +37,14 @@ class ThumbnailsHelper
 	 */
 	public function process($source, $sizes, $flag = 'fit')
 	{
+		$source = $this->configurator->getWwwDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . $source;
+		if (!is_file($source)) {
+			return $source;
+		}
 		$thumb = new Thumbnails($this->configurator);
 		$thumb->setSizes($sizes)
 			->setFlag($flag)
-			->setSource($this->configurator->getWwwDir()->getInfo()->getPathname() . DIRECTORY_SEPARATOR . $source);
+			->setSource($source);
 
 		return  $thumb->getThumb()->getRelativePath($this->configurator->getWwwDir()->getInfo()->getPathname());
 	}

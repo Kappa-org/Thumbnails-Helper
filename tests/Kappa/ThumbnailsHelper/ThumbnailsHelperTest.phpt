@@ -45,6 +45,7 @@ class ThumbnailsHelperTest extends TestCase
 	{
 		$path = $this->thumbnailHelper->process('/PHP-logo.png', '10x10');
 		Assert::match('~^/thumb/[a-z0-9]*.png$~i', $path);
+		Assert::same(realpath(__DIR__ . '/../../data/www') . '/', $this->thumbnailHelper->process('', '10x10'));
 
 		unlink(__DIR__ . '/../../data/www' . $path);
 	}
