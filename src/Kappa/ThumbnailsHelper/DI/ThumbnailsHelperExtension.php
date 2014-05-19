@@ -35,13 +35,13 @@ class ThumbnailsHelperExtension extends CompilerExtension implements ITemplateHe
 			->addSetup('setSizeUp', array($config['sizeUp']))
 			->addSetup('setControlFrequency', array($config['controlFrequency']));
 
-		$builder->addDefinition($this->prefix('thumbStorage'))
-			->setClass('Kappa\ThumbnailsHelper\ThumbStorage', array($this->prefix('@configurator')));
+		$builder->addDefinition($this->prefix('storage'))
+			->setClass('Kappa\ThumbnailsHelper\Storage', array($this->prefix('@configurator')));
 
 		$builder->addDefinition($this->prefix('thumbnailsHelper'))
 			->setClass('Kappa\ThumbnailsHelper\ThumbnailsHelper', array(
 				$this->prefix('@configurator'),
-				$this->prefix('@thumbStorage')
+				$this->prefix('@storage')
 			));
 	}
 

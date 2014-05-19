@@ -15,7 +15,7 @@ namespace Kappa\ThumbnailsHelper\Tests;
 use Kappa\Tester\TestCase;
 use Kappa\ThumbnailsHelper\Configurator;
 use Kappa\ThumbnailsHelper\ThumbnailsHelper;
-use Kappa\ThumbnailsHelper\ThumbStorage;
+use Kappa\ThumbnailsHelper\Storage;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -35,7 +35,7 @@ class ThumbnailsHelperTest extends TestCase
 		$configurator->setWwwDir(__DIR__ . '/../../data/www')
 			->setThumbDir(__DIR__ . '/../../data/www/thumb')
 			->setControlFrequency(false);
-		$this->thumbnailHelper = new ThumbnailsHelper($configurator, new ThumbStorage($configurator));
+		$this->thumbnailHelper = new ThumbnailsHelper($configurator, new Storage($configurator));
 		if (!is_dir(__DIR__ . '/../../data/www/thumb')) {
 			mkdir(__DIR__ . '/../../data/www/thumb');
 		}

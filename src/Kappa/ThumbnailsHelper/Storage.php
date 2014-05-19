@@ -17,7 +17,7 @@ use Kappa\FileSystem\FileSystem;
  * Class ThumbStorage
  * @package Kappa\ThumbnailsHelper
  */
-class ThumbStorage
+class Storage
 {
 	const CONTROL_FILE = '.controlFile';
 

@@ -14,7 +14,7 @@ namespace Kappa\ThumbnailsHelper\Tests;
 
 use Kappa\Tester\TestCase;
 use Kappa\ThumbnailsHelper\Configurator;
-use Kappa\ThumbnailsHelper\ThumbStorage;
+use Kappa\ThumbnailsHelper\Storage;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
@@ -23,7 +23,7 @@ require_once __DIR__ . '/../bootstrap.php';
  * Class ThumbStorageTest
  * @package Kappa\ThumbnailsHelper\Tests
  */
-class ThumbStorageTest extends TestCase
+class StorageTest extends TestCase
 {
 	private $thumbDir;
 
@@ -43,8 +43,8 @@ class ThumbStorageTest extends TestCase
 		$configurator2 = new Configurator();
 		$configurator2->setThumbDir($this->thumbDir)
 			->setControlFrequency(0);
-		$thumbStorage = new ThumbStorage($configurator);
-		$thumbStorage2 = new ThumbStorage($configurator2);
+		$thumbStorage = new Storage($configurator);
+		$thumbStorage2 = new Storage($configurator2);
 		Assert::false($thumbStorage->needInvalidate());
 		Assert::true($thumbStorage2->needInvalidate());
 
@@ -56,7 +56,7 @@ class ThumbStorageTest extends TestCase
 		$configurator = new Configurator();
 		$configurator->setThumbDir($this->thumbDir)
 			->setControlFrequency(0);
-		$thumbStorage = new ThumbStorage($configurator);
+		$thumbStorage = new Storage($configurator);
 		$thumbStorage->invalidateStorage();
 		$expected = file_get_contents($this->thumbDir . '/.controlFile');
 		file_put_contents($this->thumbDir . '/some', '');
@@ -71,4 +71,4 @@ class ThumbStorageTest extends TestCase
 	}
 }
 
-\run(new ThumbStorageTest());
+\run(new StorageTest());
