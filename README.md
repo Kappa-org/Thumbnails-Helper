@@ -5,9 +5,8 @@ Simple and intelligent system for creating and work with thumbnails
 ## Requirements:
 
 * PHP 5.3.6 or higher
-* [Nette\DI](https://github.com/nette/di) 2.2.*
-* [Flame\Module](https://github.com/flame-org/modules) 1.0.*
-* [Kappa\FileSystem](https://github.com/Kappa-org/FileSystem)
+* [Nette](https://github.com/nette/nette) ~2.1 or higher
+* [Kappa\FileSystem](https://github.com/Kappa-org/FileSystem) 4.1.1 or higher
 
 ## Installation
 
@@ -18,20 +17,18 @@ $ composer require kappa/thumbnails-helper:@dev
 
 ## Usages
 
-You must register two extension:
+You must register extension:
 ```yaml
 extensions:
-	- Flame\Modules\DI\ModulesExtension
 	thumb: Kappa\ThumbnailsHelper\DI\ThumbnailsHelperExtension
 ```
 
-Into presenter or control where you can use this helper add trait
+Into presenter or control where you can use this helper add filter (helper)
 ```php
-class HomepagePresenter extends Presenter
-{
-	use TemplateFactory;
-//...
+$template->addFilter('thumb', array($this->thumbnailsHelper, 'process')) // for Nette 2.2
+$template->registerHelper('thumb', array($this->thumbnailsHelper, 'process')) // for Nette 2.1
 ```
+**Method in callback must be ```process()```!**
 
 and you can use helper in templates
 ```html
