@@ -1,0 +1,8 @@
+parameters:
+	wwwDir: './'
+
+extensions:
+	thumb: Kappa\ThumbnailsHelper\DI\ThumbnailsHelperExtension
+
+thumb:
+	thumbDir: './'
