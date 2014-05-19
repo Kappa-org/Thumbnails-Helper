@@ -18,7 +18,7 @@ Tester\Environment::setup();
 class_alias('Tester\Assert', 'Assert');
 date_default_timezone_set('Europe/Prague');
 
-$temp = __DIR__ . '/../temp';
+$temp = __DIR__ . '/../temp/';
 if (file_exists($temp)) {
 	\Tester\Helpers::purge($temp);
 } else {
@@ -27,7 +27,7 @@ if (file_exists($temp)) {
 
 
 // create temporary directory
-define('TEMP_DIR', __DIR__ . '/../temp/' . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));
+define('TEMP_DIR', $temp . (isset($_SERVER['argv']) ? md5(serialize($_SERVER['argv'])) : getmypid()));
 Tester\Helpers::purge(TEMP_DIR);
 
 $_SERVER = array_intersect_key($_SERVER, array_flip(array('PHP_SELF', 'SCRIPT_NAME', 'SERVER_ADDR', 'SERVER_SOFTWARE', 'HTTP_HOST', 'DOCUMENT_ROOT', 'OS', 'argc', 'argv')));
@@ -47,4 +47,13 @@ function id($val)
 function run(Tester\TestCase $testCase)
 {
 	$testCase->run(isset($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : null);
+}
+
+function getContainer()
+{
+	$configurator = new \Nette\Configurator();
+	$configurator->setTempDirectory( __DIR__ . '/../temp');
+	$configurator->addConfig(__DIR__ . '/../data/config.neon');
+
+	return $configurator->createContainer();
 }
