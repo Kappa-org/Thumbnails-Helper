@@ -10,9 +10,6 @@
 
 namespace Kappa\ThumbnailsHelper;
 
-use Kappa\FileSystem\File;
-use Kappa\FileSystem\Image;
-
 /**
  * Class ThumbnailsHelper
  * @package Kappa\ThumbnailsHelper
