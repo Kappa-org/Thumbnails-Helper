@@ -11,7 +11,7 @@
 namespace Kappa\ThumbnailsHelper;
 
 use Kappa\FileSystem\File;
-use Nette\Utils\Image;
+use Nette\Image;
 use Kappa\FileSystem\SplFileInfo;
 
 /**
@@ -63,7 +63,7 @@ class Thumbnails
 	 */
 	public function setFlag($flag)
 	{
-		$flag = @constant('Nette\Utils\Image::' . strtoupper($flag));
+		$flag = @constant('Nette\Image::' . strtoupper($flag));
 		if ($flag === null) {
 			throw new InvalidArgumentException("Unknown flag '{$flag}' you can use only fill, fit, exact, stretch or shrink_only");
 		}

@@ -17,13 +17,12 @@
 	},
 	"require": {
 		"php": ">= 5.3.6",
-		"nette/utils": "~2.2",
-		"nette/di": "~2.2",
-		"kappa/filesystem": "~4.2.0"
+		"nette/nette": "2.1.*",
+		"kappa/filesystem": "dev-nette-2.1@dev",
+		"kappa/utils": "dev-nette-2.1@dev"
 	},
 	"require-dev": {
-		"kappa/tester": "1.1.*",
-		"nette/nette": "@dev"
+		"kappa/tester": "1.1.*"
 	},
 	"autoload": {
 		"psr-0": {

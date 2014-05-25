@@ -15,7 +15,7 @@ namespace Kappa\ThumbnailsHelper\Tests;
 use Kappa\Tester\TestCase;
 use Kappa\ThumbnailsHelper\Configurator;
 use Kappa\ThumbnailsHelper\Thumbnails;
-use Nette\Utils\Image;
+use Nette\Image;
 use Tester\Assert;
 
 require_once __DIR__ . '/../bootstrap.php';
