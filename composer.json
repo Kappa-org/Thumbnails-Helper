@@ -5,7 +5,6 @@
 	"homepage": "https://github.com/Kappa-org/Thumbnails-Helper",
 	"type": "library",
 	"license": ["BSD-3-Clause"],
-	"minimum-stability": "dev",
 	"authors": [
 		{
 			"name": "Ondřej Záruba",
@@ -18,11 +17,13 @@
 	},
 	"require": {
 		"php": ">= 5.3.6",
-		"nette/nette": "~2.1@dev",
-		"kappa/filesystem": "~4.1.1"
+		"nette/utils": "~2.2",
+		"nette/di": "~2.2",
+		"kappa/filesystem": "~4.2.0"
 	},
 	"require-dev": {
-		"kappa/tester": "1.1.*"
+		"kappa/tester": "1.1.*",
+		"nette/nette": "@dev"
 	},
 	"autoload": {
 		"psr-0": {
