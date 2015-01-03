@@ -78,9 +78,11 @@ class ThumbnailsTest extends TestCase
 
 	public function testSameSize()
 	{
+		$img = $this->wwwDir . '/PHP-logo.png';
+		$originalSize = getimagesize($img);
 		$thumbnails = new Thumbnails($this->configurator);
 		$thumbnails->setSource($this->wwwDir . '/PHP-logo.png')
-			->setSizes('553x291')
+			->setSizes("{$originalSize[0]}x{$originalSize[1]}")
 			->setFlag('fill');
 		Assert::same($thumbnails->getThumb()->getRelativePath($this->wwwDir), '/PHP-logo.png');
 	}
