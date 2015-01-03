@@ -11,7 +11,7 @@ php:
     - "5.5"
     - "5.6"
 
-script: "./vendor/bin/tester tests/ -p php -c ./tests/php-unix.ini"
+script: "./vendor/bin/tester tests/ -p php -c ./tests/php-unix.ini -j 1"
 
 before_script:
     - composer self-update
