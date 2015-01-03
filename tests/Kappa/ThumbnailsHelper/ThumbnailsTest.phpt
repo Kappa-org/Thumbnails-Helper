@@ -6,7 +6,7 @@
  *
  * For the full copyright and license information, please view the license.md
  * file that was distributed with this source code.
- * 
+ *
  * @testCase
  */
 
@@ -74,6 +74,15 @@ class ThumbnailsTest extends TestCase
 		Assert::true($expected[0] <= $image->getWidth());
 		Assert::true($expected[1] <= $image->getHeight());
 		Assert::same($this->wwwDir . '/PHP-logo.png', $spl->getPathname());
+	}
+
+	public function testSameSize()
+	{
+		$thumbnails = new Thumbnails($this->configurator);
+		$thumbnails->setSource($this->wwwDir . '/PHP-logo.png')
+			->setSizes('553x291')
+			->setFlag('fill');
+		Assert::same($thumbnails->getThumb()->getRelativePath($this->wwwDir), '/PHP-logo.png');
 	}
 }
 
