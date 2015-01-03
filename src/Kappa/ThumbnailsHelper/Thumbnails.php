@@ -29,6 +29,9 @@ class Thumbnails
 	/** @var int */
 	private $flag = Image::FIT;
 
+	/** @var boolean */
+	private $resize = true;
+
 	/** @var \Kappa\FileSystem\File */
 	private $source;
 
@@ -47,12 +50,15 @@ class Thumbnails
 	 */
 	public function setSizes($sizes)
 	{
-		$sizes = explode("x", $sizes);
-		if (count($sizes) != 2) {
-			throw new InvalidArgumentException("Size '{$sizes}' has not valid format");
+		if($sizes == NULL) {
+			$this->resize = false;
+		} else {
+			$sizes = explode("x", $sizes);
+			if (count($sizes) != 2) {
+				throw new InvalidArgumentException("Size '{$sizes}' has not valid format");
+			}
+			$this->sizes = array_map(array($this, "parseSize"), $sizes);
 		}
-		$this->sizes = array_map(array($this, "parseSize"), $sizes);
-
 		return $this;
 	}
 
@@ -98,7 +104,13 @@ class Thumbnails
 			return new SplFileInfo($thumbnail);
 		} else {
 			$image = $this->source->toImage();
-			if (!$this->configurator->getSizeUp() && $image->width <= $this->sizes[0] && $image->getHeight() <= $this->sizes[1]) {
+			if($this->resize == false) {
+				$this->sizes[0] = $image->width;
+				$this->sizes[1] = $image->height;
+
+				$file = File::fromImage($image, $thumbnail);
+				return $file->getInfo();
+			} else if (!$this->configurator->getSizeUp() && $image->width <= $this->sizes[0] && $image->getHeight() <= $this->sizes[1]) {
 				return $this->source->getInfo();
 			} else {
 				$image->resize($this->sizes[0], $this->sizes[1], $this->flag);
@@ -131,4 +143,4 @@ class Thumbnails
 			return (int)$size;
 		}
 	}
-} 
+}

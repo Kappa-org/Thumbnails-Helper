@@ -35,6 +35,7 @@ and you can use helper in templates
 <img src="{$photo|thumb:'100x300':'fit'}">
 ```
 Size can be in next formats:
+* ```NULL``` - Size of photo will be the same as original picture, no resized
 * ```100x``` - Width will be 100px and height will be automatically calculated
 * ```x100``` - Width will be automatically calculated and height will be 100px
 * ```100x100``` - Size will be 100pxx100px
